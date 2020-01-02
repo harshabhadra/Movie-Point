@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Movies Point</string>
+    <string name="api_key"></string>
+    <string name="title_home">Home</string>
+    <string name="title_movie">Movies</string>
+    <string name="title_tv_shows">TV Shows</string>
+    <string name="title_fav">Favorites</string>
+</resources>

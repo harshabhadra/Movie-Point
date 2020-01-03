@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.technoidtintin.android.moviesmela.Repository;
+import com.technoidtintin.android.moviesmela.TvShows;
+
 public class TvShowsViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private Repository repository;
 
     public TvShowsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+
+        repository = Repository.getInstance();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    //Get List of Tv Shows on Air
+    public LiveData<TvShows>getTvShowsOnAir(String path, String apiKey){
+        return repository.getTvShowsOnAir(path,apiKey);
     }
 }

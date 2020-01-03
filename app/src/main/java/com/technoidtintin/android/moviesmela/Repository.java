@@ -58,6 +58,26 @@ public class Repository {
     //Store list of Trending Movie list of the day
     private MutableLiveData<Trending>trendMovieDayMutableLiveData = new MutableLiveData<>();
 
+    //Store list of Movies Now Playing
+    private MutableLiveData<List<ListItem>>nowPlayingMovieMutableLiveData = new MutableLiveData<>();
+
+    //Store list of Tv Shows on air
+    private MutableLiveData<TvShows>tvShowsOnAirMutableLiveData = new MutableLiveData<>();
+
+    //Store List of Tv Shows on Air Today
+    private MutableLiveData<TvShows>tvShowsTodayMutableLiveData = new MutableLiveData<>();
+
+    //Get List of Tv Shows on Air
+    public LiveData<TvShows>getTvShowsOnAir(String path, String apiKey){
+
+        getTvShowsOnAirList(path,apiKey);
+        if (path.equals(Constant.ON_THE_AIR)) {
+            return tvShowsOnAirMutableLiveData;
+        }else {
+            return tvShowsOnAirMutableLiveData;
+        }
+    }
+
     //Get Todays trend list
     public LiveData<Trending>getTrending(String type, String time, String apiKey){
         getTrendingList(type, time, apiKey);
@@ -72,12 +92,6 @@ public class Repository {
         }
     }
 
-    //Get list of top rated Tv Shows
-    public LiveData<List<ListItem>>getTopRatedTvShows(String path, String apiKey){
-        getPopularTvShows(path,apiKey);
-        return topRatedTvMutableLiveData;
-    }
-
     //Get List of Popular Tv shows
     public LiveData<List<ListItem>>getPopularTvShows(String path, String apiKey){
         getPopularTvShowsList(path,apiKey);
@@ -86,6 +100,12 @@ public class Repository {
         }else {
             return topRatedTvMutableLiveData;
         }
+    }
+
+    //Get List of Now Playing Movies
+    public LiveData<List<ListItem>>getNowPlayingMovies(String apiKey){
+        getNowPlayingMovieList(apiKey);
+        return nowPlayingMovieMutableLiveData;
     }
 
     //Get List of MovieItems
@@ -184,6 +204,48 @@ public class Repository {
         });
     }
 
+    //Network request to get Now Playing Movies List
+    private void getNowPlayingMovieList(String apiKey) {
+
+        final List<ListItem> listItemList = new ArrayList<>();
+
+        apiServices.getMovies("now_playing",apiKey).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.e(TAG,"Response is successful " );
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        JSONObject object = new JSONObject(response.body());
+                        JSONArray jsonArray = object.getJSONArray("results");
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject movieObj = jsonArray.getJSONObject(i);
+
+                            int id = movieObj.getInt("id");
+                            String posterImage = movieObj.getString("poster_path");
+                            String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
+                            String title = movieObj.getString("title");
+
+                            ListItem listItem = new ListItem(id,title,image_url);
+                            listItemList.add(listItem);
+                        }
+                        nowPlayingMovieMutableLiveData.setValue(listItemList);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+                Log.e(TAG,"Failed getting response: " + t.getMessage());
+            }
+        });
+    }
+
     //Network call to get list of popular tv shows
     private void getPopularTvShowsList(final String path, String apiKey) {
 
@@ -252,6 +314,28 @@ public class Repository {
             public void onFailure(Call<Trending> call, Throwable t) {
 
                 Log.e(TAG,"Trending response is failure: " + t.getMessage());
+            }
+        });
+    }
+
+    //Network call to get list of Tv Shows on Air
+    private void getTvShowsOnAirList(final String path, String apiKey) {
+
+        operator.getTvOnAirList(path,apiKey).enqueue(new Callback<TvShows>() {
+            @Override
+            public void onResponse(Call<TvShows> call, Response<TvShows> response) {
+                Log.e(TAG,"Tv Shows on Air response is: " + response.body());
+                if (response.body()!= null && response.isSuccessful()){
+                    if (path.equals(Constant.ON_THE_AIR)){
+                        tvShowsOnAirMutableLiveData.setValue(response.body());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvShows> call, Throwable t) {
+
+                Log.e(TAG,"Tv Shows on air response failure: " + t.getMessage());
             }
         });
     }

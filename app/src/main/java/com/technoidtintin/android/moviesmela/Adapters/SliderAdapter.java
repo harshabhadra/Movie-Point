@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela;
+package com.technoidtintin.android.moviesmela.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
+import com.technoidtintin.android.moviesmela.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
         if (trendResultList != null){
             viewHolder.textViewDescription.setText(trendResultList.get(position).getName());
             String imageUrl = "http://image.tmdb.org/t/p/w500" + trendResultList.get(position).getBackdropPath();
-            Picasso.get().load(imageUrl).into(viewHolder.imageViewBackground);
+            Picasso.get().load(imageUrl)
+                    .fit()
+                    .centerCrop()
+                    .into(viewHolder.imageViewBackground);
         }
     }
 

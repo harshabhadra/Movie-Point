@@ -5,11 +5,11 @@ import java.util.List;
 public class HomeItem {
 
     private String typeTitle;
-    private List<MovieItem>movieItemList;
+    private List<ListItem> listItemList;
 
-    public HomeItem(String typeTitle, List<MovieItem> movieItemList) {
+    public HomeItem(String typeTitle, List<ListItem> listItemList) {
         this.typeTitle = typeTitle;
-        this.movieItemList = movieItemList;
+        this.listItemList = listItemList;
     }
 
     public HomeItem() {
@@ -23,11 +23,11 @@ public class HomeItem {
         this.typeTitle = typeTitle;
     }
 
-    public List<MovieItem> getMovieItemList() {
-        return movieItemList;
+    public List<ListItem> getListItemList() {
+        return listItemList;
     }
 
-    public void setMovieItemList(List<MovieItem> movieItemList) {
-        this.movieItemList = movieItemList;
+    public void setListItemList(List<ListItem> listItemList) {
+        this.listItemList = listItemList;
     }
 }

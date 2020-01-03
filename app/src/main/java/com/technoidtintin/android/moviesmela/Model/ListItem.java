@@ -1,12 +1,12 @@
 package com.technoidtintin.android.moviesmela.Model;
 
-public class MovieItem {
+public class ListItem {
 
     private int id;
     private String movieTitle;
     private String moviePosterPath;
 
-    public MovieItem(int id, String movieTitle, String moviePosterPath) {
+    public ListItem(int id, String movieTitle, String moviePosterPath) {
         this.id = id;
         this.movieTitle = movieTitle;
         this.moviePosterPath = moviePosterPath;

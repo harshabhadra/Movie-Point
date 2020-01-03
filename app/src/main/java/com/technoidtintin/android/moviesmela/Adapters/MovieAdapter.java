@@ -5,13 +5,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-import com.technoidtintin.android.moviesmela.Model.MovieItem;
+import com.technoidtintin.android.moviesmela.Model.HomeItem;
+import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.R;
 
 import java.util.ArrayList;
@@ -20,51 +21,56 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private static final String TAG = MovieAdapter.class.getSimpleName();
-    private List<MovieItem>movieItemList = new ArrayList<>();
-    private LayoutInflater layoutInflater;
+    private Context context;
+    private List<HomeItem> homeItemList = new ArrayList<>();
 
     public MovieAdapter(Context context) {
-        layoutInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.e(TAG,"Creting Movie item");
-        return new MovieViewHolder(layoutInflater.inflate(R.layout.movie_item,parent,false));
+        return new MovieViewHolder(LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
 
-        if (movieItemList != null){
-            Log.e(TAG,"Movie list not null");
-            MovieItem movieItem = movieItemList.get(position);
-            Log.e(TAG,"Title: " + movieItem.getMovieTitle() );
-            Picasso.get().load(movieItem.getMoviePosterPath()).placeholder(R.mipmap.ic_launcher).into(holder.posterImage);
+        HomeItem homeItem = homeItemList.get(position);
+        holder.itemTypename.setText(homeItem.getTypeTitle());
+        List<ListItem> listItemList = homeItem.getListItemList();
+        if (listItemList != null){
+            ItemListAdapter itemListAdapter = new ItemListAdapter(context);
+            holder.itemTypeRecyclerView.setHasFixedSize(true);
+            holder.itemTypeRecyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            holder.itemTypeRecyclerView.setAdapter(itemListAdapter);
+            itemListAdapter.setListItemList(listItemList);
         }else {
-            Log.e(TAG,"Movie list null");
+            Log.e(TAG,"Movie Item list is null");
         }
     }
 
     @Override
     public int getItemCount() {
-        return movieItemList.size();
+        return homeItemList.size();
     }
 
-    public void setMovieItemList(List<MovieItem> movieItemList) {
-        this.movieItemList = movieItemList;
+    public void setHomeItemList(List<HomeItem> homeItemList) {
+        this.homeItemList = homeItemList;
         notifyDataSetChanged();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder{
+    class MovieViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView posterImage;
+        TextView itemTypename;
+        RecyclerView itemTypeRecyclerView;
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            posterImage = itemView.findViewById(R.id.movie_poster_image);
+            itemTypename = itemView.findViewById(R.id.item_type_name);
+            itemTypeRecyclerView = itemView.findViewById(R.id.item_type_recycler);
         }
     }
 }

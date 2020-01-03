@@ -1,5 +1,6 @@
 package com.technoidtintin.android.moviesmela;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;

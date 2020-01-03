@@ -13,14 +13,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.technoidtintin.android.moviesmela.Adapters.HomeAdapter;
+import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
-import com.technoidtintin.android.moviesmela.Model.MovieItem;
+import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.R;
-import com.technoidtintin.android.moviesmela.SliderAdapter;
+import com.technoidtintin.android.moviesmela.Adapters.SliderAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,30 +59,45 @@ public class HomeFragment extends Fragment {
         parentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         homeAdapter = new HomeAdapter(getContext());
         parentRecycler.setAdapter(homeAdapter);
-        getTredingToday();
+        getTredingWeek();
 
         //Initializing SliderView
         sliderView = root.findViewById(R.id.sliderView);
         sliderAdapter = new SliderAdapter(getContext());
         sliderView.setSliderAdapter(sliderAdapter);
-        sliderView.setScrollTimeInSec(4);
+        getTrendingToday();
+        sliderView.setIndicatorAnimation(IndicatorAnimations.SWAP); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        sliderView.setSliderTransformAnimation(SliderAnimations.FADETRANSFORMATION);
+        sliderView.setScrollTimeInSec(6);
         return root;
     }
 
+    //Get Trending Today
+    private void getTrendingToday(){
+        homeViewModel.getTrending(Constant.ALL,Constant.DAY,apiKey).observe(this, new Observer<Trending>() {
+            @Override
+            public void onChanged(Trending trending) {
+                if (trending != null){
+                    List<TrendResult>trendResultList = trending.getResults();
+                    sliderAdapter.setTrendResultList(trendResultList);
+                }
+            }
+        });
+    }
+
     //Get Trending List
-    private void getTredingToday() {
-        homeViewModel.getTrending(apiKey).observe(this, new Observer<Trending>() {
+    private void getTredingWeek() {
+        homeViewModel.getTrending(Constant.ALL,Constant.WEEK,apiKey).observe(this, new Observer<Trending>() {
             @Override
             public void onChanged(Trending trending) {
 
                 if (trending != null) {
                     Log.e(TAG, "Trends are full: " + trending.getTotalResults());
                     List<TrendResult> trendResults = trending.getResults();
-                    sliderAdapter.setTrendResultList(trendResults);
-                    List<MovieItem> movieItemList = getTrendItem(trendResults);
-                    if (movieItemList != null) {
+                    List<ListItem> listItemList = getTrendItem(trendResults);
+                    if (listItemList != null) {
                         Log.e(TAG, "Trends MovieList is full");
-                        homeItemList.add(new HomeItem("Trending Today", movieItemList));
+                        homeItemList.add(new HomeItem("Trending This Week", listItemList));
                         if (homeItemList != null) {
                             getPopularMovieList();
                         }
@@ -98,12 +116,12 @@ public class HomeFragment extends Fragment {
     //Get Popular Movies
     private void getPopularMovieList() {
 
-        homeViewModel.getPopularMovies(apiKey).observe(this, new Observer<List<MovieItem>>() {
+        homeViewModel.getPopularMovies(apiKey).observe(this, new Observer<List<ListItem>>() {
             @Override
-            public void onChanged(List<MovieItem> movieItemList) {
-                if (movieItemList != null) {
+            public void onChanged(List<ListItem> listItemList) {
+                if (listItemList != null) {
 
-                    homeItemList.add(new HomeItem("Popular Movies", movieItemList));
+                    homeItemList.add(new HomeItem("Popular Movies", listItemList));
                     if (homeItemList != null) {
                         getPopularTvShows();
                     }
@@ -116,12 +134,12 @@ public class HomeFragment extends Fragment {
 
     //Get top rated movies
     private void getTopratedMoveis() {
-        homeViewModel.getTopRatedMovies(apiKey).observe(this, new Observer<List<MovieItem>>() {
+        homeViewModel.getTopRatedMovies(apiKey).observe(this, new Observer<List<ListItem>>() {
             @Override
-            public void onChanged(List<MovieItem> movieItems) {
-                if (movieItems != null) {
+            public void onChanged(List<ListItem> listItems) {
+                if (listItems != null) {
                     Log.e(TAG, "Top movies list is full");
-                    homeItemList.add(new HomeItem("Top Rated Movies", movieItems));
+                    homeItemList.add(new HomeItem("Top Rated Movies", listItems));
                     if (homeItemList != null) {
                         getTopRatedTvShows();
                     }
@@ -134,12 +152,12 @@ public class HomeFragment extends Fragment {
 
     //Get Popular Tv Shows
     private void getPopularTvShows() {
-        homeViewModel.getPopularTvShows("popular", apiKey).observe(this, new Observer<List<MovieItem>>() {
+        homeViewModel.getPopularTvShows("popular", apiKey).observe(this, new Observer<List<ListItem>>() {
             @Override
-            public void onChanged(List<MovieItem> movieItems) {
-                if (movieItems != null) {
+            public void onChanged(List<ListItem> listItems) {
+                if (listItems != null) {
                     Log.e(TAG, "Popula Tv Shows list is full");
-                    homeItemList.add(new HomeItem("Popular on TV", movieItems));
+                    homeItemList.add(new HomeItem("Popular on TV", listItems));
                     if (homeItemList != null) {
                         getTopratedMoveis();
                     }
@@ -150,12 +168,12 @@ public class HomeFragment extends Fragment {
 
     //Get Top Rated Tv Shows
     private void getTopRatedTvShows() {
-        homeViewModel.getPopularTvShows("top_rated", apiKey).observe(this, new Observer<List<MovieItem>>() {
+        homeViewModel.getPopularTvShows("top_rated", apiKey).observe(this, new Observer<List<ListItem>>() {
             @Override
-            public void onChanged(List<MovieItem> movieItems) {
-                if (movieItems != null) {
+            public void onChanged(List<ListItem> listItems) {
+                if (listItems != null) {
                     Log.e(TAG, "Top rated Tv Shows list is full");
-                    homeItemList.add(new HomeItem("Top Rated Tv Shows", movieItems));
+                    homeItemList.add(new HomeItem("Top Rated Tv Shows", listItems));
                     addItemToHomeList(homeItemList);
                 }
             }
@@ -169,18 +187,18 @@ public class HomeFragment extends Fragment {
     }
 
     //Get Trend Item from Trend Result
-    private List<MovieItem> getTrendItem(List<TrendResult> trendResultList) {
+    private List<ListItem> getTrendItem(List<TrendResult> trendResultList) {
 
-        List<MovieItem> movieItemList = new ArrayList<>();
+        List<ListItem> listItemList = new ArrayList<>();
         for (int i = 0; i < trendResultList.size(); i++) {
             int id = trendResultList.get(i).getId();
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
             String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
-            MovieItem movieItem = new MovieItem(id, title, imageUrl);
+            ListItem listItem = new ListItem(id, title, imageUrl);
 
-            movieItemList.add(movieItem);
+            listItemList.add(listItem);
         }
-        return movieItemList;
+        return listItemList;
     }
 }

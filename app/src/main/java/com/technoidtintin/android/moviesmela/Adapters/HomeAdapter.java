@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
-import com.technoidtintin.android.moviesmela.Model.MovieItem;
+import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.R;
 
 import java.util.ArrayList;
@@ -39,13 +39,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
         HomeItem homeItem = homeItemList.get(position);
         holder.itemTypename.setText(homeItem.getTypeTitle());
-        List<MovieItem>movieItemList = homeItem.getMovieItemList();
-        if (movieItemList != null){
-            MovieAdapter movieAdapter = new MovieAdapter(context);
+        List<ListItem> listItemList = homeItem.getListItemList();
+        if (listItemList != null){
+            ItemListAdapter itemListAdapter = new ItemListAdapter(context);
             holder.itemTypeRecyclerView.setHasFixedSize(true);
             holder.itemTypeRecyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-            holder.itemTypeRecyclerView.setAdapter(movieAdapter);
-            movieAdapter.setMovieItemList(movieItemList);
+            holder.itemTypeRecyclerView.setAdapter(itemListAdapter);
+            itemListAdapter.setListItemList(listItemList);
         }else {
             Log.e(TAG,"Movie Item list is null");
         }

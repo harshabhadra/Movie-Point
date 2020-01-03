@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardUseCompatPadding="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@color/colorPrimary">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/slider_image"
@@ -19,12 +20,17 @@
         <TextView
             android:id="@+id/slider_text"
             style="@style/TextAppearance.AppCompat.Large"
-            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/armata"
+            android:padding="16dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
             tools:text="Avengers End Game" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/shadow"
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

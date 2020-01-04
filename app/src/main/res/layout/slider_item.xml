@@ -53,6 +53,7 @@
             android:id="@+id/view3"
             android:layout_width="16dp"
             android:layout_height="0dp"
+            android:transitionName="item_banner"
             android:background="@drawable/shadow_right"
             app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"

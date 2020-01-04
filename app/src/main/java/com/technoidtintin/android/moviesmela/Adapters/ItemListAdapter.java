@@ -54,7 +54,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MovieV
                     Intent intent = new Intent(context, ItemDetailsActivity.class);
                     intent.putExtra(Constant.LIST_ITEM,listItem);
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) context
-                            ,holder.posterImage,"item");
+                            ,holder.posterImage,"item_poster");
                     context.startActivity(intent,options.toBundle());
                 }
             });

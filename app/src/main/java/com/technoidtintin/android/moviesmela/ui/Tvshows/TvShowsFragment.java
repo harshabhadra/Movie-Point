@@ -15,9 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
-import com.technoidtintin.android.moviesmela.TvShows;
-import com.technoidtintin.android.moviesmela.TvShowsList;
-import com.technoidtintin.android.moviesmela.ui.home.SliderAdapter;
+import com.technoidtintin.android.moviesmela.Model.TvShows;
+import com.technoidtintin.android.moviesmela.Model.TvShowsList;
 import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
 import com.technoidtintin.android.moviesmela.Model.Trending;

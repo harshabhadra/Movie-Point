@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.Trending;
+import com.technoidtintin.android.moviesmela.Model.TvShows;
 import com.technoidtintin.android.moviesmela.Network.ApiServices;
 import com.technoidtintin.android.moviesmela.Network.ApiUtils;
 import com.technoidtintin.android.moviesmela.Network.Operator;

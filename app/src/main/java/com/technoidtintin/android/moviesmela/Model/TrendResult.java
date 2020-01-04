@@ -1,11 +1,14 @@
 package com.technoidtintin.android.moviesmela.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TrendResult {
+public class TrendResult implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -64,6 +67,57 @@ public class TrendResult {
     @SerializedName("origin_country")
     @Expose
     private List<String> originCountry = null;
+
+    protected TrendResult(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        byte tmpVideo = in.readByte();
+        video = tmpVideo == 0 ? null : tmpVideo == 1;
+        if (in.readByte() == 0) {
+            voteCount = null;
+        } else {
+            voteCount = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            voteAverage = null;
+        } else {
+            voteAverage = in.readDouble();
+        }
+        title = in.readString();
+        releaseDate = in.readString();
+        originalLanguage = in.readString();
+        originalTitle = in.readString();
+        backdropPath = in.readString();
+        byte tmpAdult = in.readByte();
+        adult = tmpAdult == 0 ? null : tmpAdult == 1;
+        overview = in.readString();
+        posterPath = in.readString();
+        if (in.readByte() == 0) {
+            popularity = null;
+        } else {
+            popularity = in.readDouble();
+        }
+        mediaType = in.readString();
+        originalName = in.readString();
+        name = in.readString();
+        firstAirDate = in.readString();
+        originCountry = in.createStringArrayList();
+    }
+
+    public static final Creator<TrendResult> CREATOR = new Creator<TrendResult>() {
+        @Override
+        public TrendResult createFromParcel(Parcel in) {
+            return new TrendResult(in);
+        }
+
+        @Override
+        public TrendResult[] newArray(int size) {
+            return new TrendResult[size];
+        }
+    };
 
     public Integer getId() {
         return id;
@@ -215,5 +269,52 @@ public class TrendResult {
 
     public void setOriginCountry(List<String> originCountry) {
         this.originCountry = originCountry;
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeByte((byte) (video == null ? 0 : video ? 1 : 2));
+        if (voteCount == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(voteCount);
+        }
+        if (voteAverage == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(voteAverage);
+        }
+        parcel.writeString(title);
+        parcel.writeString(releaseDate);
+        parcel.writeString(originalLanguage);
+        parcel.writeString(originalTitle);
+        parcel.writeString(backdropPath);
+        parcel.writeByte((byte) (adult == null ? 0 : adult ? 1 : 2));
+        parcel.writeString(overview);
+        parcel.writeString(posterPath);
+        if (popularity == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(popularity);
+        }
+        parcel.writeString(mediaType);
+        parcel.writeString(originalName);
+        parcel.writeString(name);
+        parcel.writeString(firstAirDate);
+        parcel.writeStringList(originCountry);
     }
 }

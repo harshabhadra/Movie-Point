@@ -1,6 +1,9 @@
 package com.technoidtintin.android.moviesmela.ui.home;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,8 @@ import android.widget.TextView;
 
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
+import com.technoidtintin.android.moviesmela.Constant;
+import com.technoidtintin.android.moviesmela.ItemDetailsActivity;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
 import com.technoidtintin.android.moviesmela.R;
 
@@ -30,7 +35,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
     }
 
     @Override
-    public void onBindViewHolder(SliderViewHolder viewHolder, int position) {
+    public void onBindViewHolder(final SliderViewHolder viewHolder, int position) {
 
         if (trendResultList != null){
             viewHolder.textViewDescription.setText(trendResultList.get(position).getName());
@@ -39,6 +44,18 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
                     .fit()
                     .centerCrop()
                     .into(viewHolder.imageViewBackground);
+
+            final TrendResult trendResult = trendResultList.get(position);
+            viewHolder.imageViewBackground.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ItemDetailsActivity.class);
+                    intent.putExtra(Constant.TREND_LIST,trendResult);
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity)context,
+                            viewHolder.imageViewBackground,"item_banner");
+                    context.startActivity(intent,options.toBundle());
+                }
+            });
         }
     }
 

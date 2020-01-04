@@ -12,6 +12,6 @@
         android:id="@+id/movie_poster_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:transitionName="item"
+        android:transitionName="item_poster"
         android:src="@mipmap/ic_launcher" />
 </androidx.cardview.widget.CardView>

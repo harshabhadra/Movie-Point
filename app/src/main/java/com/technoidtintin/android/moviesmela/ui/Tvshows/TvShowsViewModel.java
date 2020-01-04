@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.Repository;
-import com.technoidtintin.android.moviesmela.TvShows;
+import com.technoidtintin.android.moviesmela.Model.TvShows;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.technoidtintin.android.moviesmela.Network;
 
 import com.technoidtintin.android.moviesmela.Model.Trending;
-import com.technoidtintin.android.moviesmela.TvShows;
+import com.technoidtintin.android.moviesmela.Model.TvShows;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

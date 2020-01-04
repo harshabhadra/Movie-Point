@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela;
+package com.technoidtintin.android.moviesmela.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

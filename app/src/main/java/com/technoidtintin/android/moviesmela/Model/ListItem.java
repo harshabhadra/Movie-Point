@@ -1,6 +1,9 @@
 package com.technoidtintin.android.moviesmela.Model;
 
-public class ListItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ListItem implements Parcelable {
 
     private int id;
     private String movieTitle;
@@ -11,6 +14,24 @@ public class ListItem {
         this.movieTitle = movieTitle;
         this.moviePosterPath = moviePosterPath;
     }
+
+    protected ListItem(Parcel in) {
+        id = in.readInt();
+        movieTitle = in.readString();
+        moviePosterPath = in.readString();
+    }
+
+    public static final Creator<ListItem> CREATOR = new Creator<ListItem>() {
+        @Override
+        public ListItem createFromParcel(Parcel in) {
+            return new ListItem(in);
+        }
+
+        @Override
+        public ListItem[] newArray(int size) {
+            return new ListItem[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -34,5 +55,17 @@ public class ListItem {
 
     public void setMoviePosterPath(String moviePosterPath) {
         this.moviePosterPath = moviePosterPath;
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(movieTitle);
+        parcel.writeString(moviePosterPath);
     }
 }

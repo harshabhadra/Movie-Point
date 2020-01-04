@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela.Adapters;
+package com.technoidtintin.android.moviesmela.ui.Movies;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.technoidtintin.android.moviesmela.Adapters.ItemListAdapter;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.R;
@@ -18,24 +19,24 @@ import com.technoidtintin.android.moviesmela.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder>{
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private static final String TAG = TvAdapter.class.getSimpleName();
+    private static final String TAG = MovieAdapter.class.getSimpleName();
     private Context context;
     private List<HomeItem> homeItemList = new ArrayList<>();
 
-    public TvAdapter(Context context) {
+    public MovieAdapter(Context context) {
         this.context = context;
     }
 
     @NonNull
     @Override
-    public TvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TvViewHolder(LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false));
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MovieViewHolder(LayoutInflater.from(context).inflate(R.layout.main_list_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TvViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
 
         HomeItem homeItem = homeItemList.get(position);
         holder.itemTypename.setText(homeItem.getTypeTitle());
@@ -51,22 +52,22 @@ public class TvAdapter extends RecyclerView.Adapter<TvAdapter.TvViewHolder>{
         }
     }
 
-    public void setHomeItemList(List<HomeItem> homeItemList) {
-        this.homeItemList = homeItemList;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
         return homeItemList.size();
     }
 
-    class TvViewHolder extends RecyclerView.ViewHolder{
+    public void setHomeItemList(List<HomeItem> homeItemList) {
+        this.homeItemList = homeItemList;
+        notifyDataSetChanged();
+    }
+
+    class MovieViewHolder extends RecyclerView.ViewHolder{
 
         TextView itemTypename;
         RecyclerView itemTypeRecyclerView;
 
-        public TvViewHolder(@NonNull View itemView) {
+        public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
 
             itemTypename = itemView.findViewById(R.id.item_type_name);

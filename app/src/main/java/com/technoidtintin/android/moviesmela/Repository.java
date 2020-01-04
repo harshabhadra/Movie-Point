@@ -67,6 +67,12 @@ public class Repository {
     //Store List of Tv Shows on Air Today
     private MutableLiveData<TvShows>tvShowsTodayMutableLiveData = new MutableLiveData<>();
 
+    //Store list of trending Tv Shows of the day
+    private MutableLiveData<Trending>trendTvDayMutableLiveData = new MutableLiveData<>();
+
+    //Store list of Trending Tv shows of this week
+    private MutableLiveData<Trending>trendTvWeekMutableLiveData = new MutableLiveData<>();
+
     //Get List of Tv Shows on Air
     public LiveData<TvShows>getTvShowsOnAir(String path, String apiKey){
 
@@ -74,7 +80,7 @@ public class Repository {
         if (path.equals(Constant.ON_THE_AIR)) {
             return tvShowsOnAirMutableLiveData;
         }else {
-            return tvShowsOnAirMutableLiveData;
+            return tvShowsTodayMutableLiveData;
         }
     }
 
@@ -87,14 +93,16 @@ public class Repository {
            return trendWeekMutableLiveData;
         }else if (type.equals(Constant.MOVIE)&& time.equals(Constant.DAY)){
             return trendMovieDayMutableLiveData;
+        }else if (type.equals(Constant.TV)&& time.equals(Constant.DAY)){
+            return trendTvDayMutableLiveData;
         }else {
-            return trendMovieDayMutableLiveData;
+            return trendTvWeekMutableLiveData;
         }
     }
 
     //Get List of Popular Tv shows
-    public LiveData<List<ListItem>>getPopularTvShows(String path, String apiKey){
-        getPopularTvShowsList(path,apiKey);
+    public LiveData<List<ListItem>> getTvShows(String path, String apiKey){
+        getTvShowsList(path,apiKey);
         if (path.equals("popular")) {
             return popularTvItemsMutableLiveData;
         }else {
@@ -247,7 +255,7 @@ public class Repository {
     }
 
     //Network call to get list of popular tv shows
-    private void getPopularTvShowsList(final String path, String apiKey) {
+    private void getTvShowsList(final String path, String apiKey) {
 
         final List<ListItem>popularTvshowsList = new ArrayList<>();
         apiServices.getTVShowsList(path,apiKey).enqueue(new Callback<String>() {
@@ -306,6 +314,10 @@ public class Repository {
                             trendWeekMutableLiveData.setValue(response.body());
                     }else if (type.equals(Constant.MOVIE)&& time.equals(Constant.DAY)){
                         trendMovieDayMutableLiveData.setValue(response.body());
+                    }else if (type.equals(Constant.TV)&& time.equals(Constant.DAY)){
+                        trendTvDayMutableLiveData.setValue(response.body());
+                    }else {
+                        trendTvWeekMutableLiveData.setValue(response.body());
                     }
                 }
             }
@@ -328,6 +340,8 @@ public class Repository {
                 if (response.body()!= null && response.isSuccessful()){
                     if (path.equals(Constant.ON_THE_AIR)){
                         tvShowsOnAirMutableLiveData.setValue(response.body());
+                    }else {
+                        tvShowsTodayMutableLiveData.setValue(response.body());
                     }
                 }
             }

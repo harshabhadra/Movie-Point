@@ -31,7 +31,7 @@ public class HomeViewModel extends ViewModel {
 
     //Get list of popular tv shows
     public LiveData<List<ListItem>>getPopularTvShows(String path, String apiKey){
-        return repository.getPopularTvShows(path,apiKey);
+        return repository.getTvShows(path,apiKey);
     }
 
     public LiveData<Trending>getTrending(String type, String time, String apikey){

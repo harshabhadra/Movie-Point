@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela.Adapters;
+package com.technoidtintin.android.moviesmela.ui.Tvshows;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,30 +15,30 @@ import com.technoidtintin.android.moviesmela.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHolder> {
+public class TvSliderAdapter extends SliderViewAdapter<TvSliderAdapter.TvSliderViewHolder>{
 
     private Context context;
     private List<TrendResult>trendResultList = new ArrayList<>();
 
-    public SliderAdapter(Context context) {
+    public TvSliderAdapter(Context context) {
         this.context = context;
     }
 
     @Override
-    public SliderViewHolder onCreateViewHolder(ViewGroup parent) {
-        return new SliderViewHolder(LayoutInflater.from(context).inflate(R.layout.slider_item,parent,false));
+    public TvSliderViewHolder onCreateViewHolder(ViewGroup parent) {
+        return new TvSliderViewHolder(LayoutInflater.from(context).inflate(R.layout.tv_slider_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(SliderViewHolder viewHolder, int position) {
+    public void onBindViewHolder(TvSliderViewHolder viewHolder, int position) {
 
         if (trendResultList != null){
-            viewHolder.textViewDescription.setText(trendResultList.get(position).getName());
+            viewHolder.textView.setText(trendResultList.get(position).getName());
             String imageUrl = "http://image.tmdb.org/t/p/w500" + trendResultList.get(position).getBackdropPath();
             Picasso.get().load(imageUrl)
                     .fit()
                     .centerCrop()
-                    .into(viewHolder.imageViewBackground);
+                    .into(viewHolder.imageView);
         }
     }
 
@@ -52,16 +52,16 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
         notifyDataSetChanged();
     }
 
-    class SliderViewHolder extends SliderViewAdapter.ViewHolder{
+    class TvSliderViewHolder extends SliderViewAdapter.ViewHolder{
 
-        View itemView;
-        ImageView imageViewBackground;
-        TextView textViewDescription;
+        ImageView imageView;
+        TextView textView;
 
-        public SliderViewHolder(View itemView) {
+        public TvSliderViewHolder(View itemView) {
             super(itemView);
-            imageViewBackground = itemView.findViewById(R.id.slider_image);
-            textViewDescription = itemView.findViewById(R.id.slider_text);
+
+            imageView = itemView.findViewById(R.id.tv_slider_image);
+            textView = itemView.findViewById(R.id.tv_slider_text);
         }
     }
 }

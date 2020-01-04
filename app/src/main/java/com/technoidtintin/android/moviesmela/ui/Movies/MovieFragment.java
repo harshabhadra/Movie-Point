@@ -13,8 +13,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.technoidtintin.android.moviesmela.Adapters.MovieAdapter;
-import com.technoidtintin.android.moviesmela.Adapters.SliderAdapter;
 import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
@@ -30,7 +28,7 @@ public class MovieFragment extends Fragment {
 
     private MoviesViewModel moviesViewModel;
     private FragmentMovieBinding fragmentMovieBinding;
-    private SliderAdapter sliderAdapter;
+    private MovieSliderAdapter sliderAdapter;
     private MovieAdapter movieAdapter;
 
     private List<HomeItem>homeItemList = new ArrayList<>();
@@ -48,7 +46,7 @@ public class MovieFragment extends Fragment {
         fragmentMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false);
 
         //Initializing Slider Adapter
-        sliderAdapter = new SliderAdapter(getContext());
+        sliderAdapter = new MovieSliderAdapter(getContext());
         fragmentMovieBinding.movieSliderView.setSliderAdapter(sliderAdapter);
         fragmentMovieBinding.movieSliderView.setScrollTimeInSec(6);
         getTrendingMoviesToday();

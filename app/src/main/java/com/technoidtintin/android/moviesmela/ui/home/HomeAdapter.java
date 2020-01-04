@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela.Adapters;
+package com.technoidtintin.android.moviesmela.ui.home;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.technoidtintin.android.moviesmela.Adapters.ItemListAdapter;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.R;

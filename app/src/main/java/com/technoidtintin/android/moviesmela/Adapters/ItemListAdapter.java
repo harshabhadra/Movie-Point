@@ -40,7 +40,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MovieV
         if (listItemList != null){
             Log.e(TAG,"Movie list not null");
             ListItem listItem = listItemList.get(position);
-            Log.e(TAG,"Title: " + listItem.getMovieTitle() );
             Picasso.get().load(listItem.getMoviePosterPath()).placeholder(R.mipmap.ic_launcher).into(holder.posterImage);
         }else {
             Log.e(TAG,"Movie list null");

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,14 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-import com.technoidtintin.android.moviesmela.Adapters.HomeAdapter;
 import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.R;
-import com.technoidtintin.android.moviesmela.Adapters.SliderAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +30,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String HOME_TAG = "Home Create";
 
     private HomeViewModel homeViewModel;
     private RecyclerView parentRecycler;
@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        Log.e(HOME_TAG,HOME_TAG);
         //Initializing api key
         apiKey = getResources().getString(R.string.api_key);
 

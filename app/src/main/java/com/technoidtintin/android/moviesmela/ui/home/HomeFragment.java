@@ -22,6 +22,8 @@ import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
 import com.technoidtintin.android.moviesmela.Model.Trending;
+import com.technoidtintin.android.moviesmela.Model.TvShows;
+import com.technoidtintin.android.moviesmela.Model.TvShowsList;
 import com.technoidtintin.android.moviesmela.R;
 
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ public class HomeFragment extends Fragment {
     private HomeAdapter homeAdapter;
     private SliderView sliderView;
     private SliderAdapter sliderAdapter;
+
+    private String trendMediaType;
 
     private List<HomeItem> homeItemList = new ArrayList<>();
 
@@ -69,7 +73,7 @@ public class HomeFragment extends Fragment {
         getTrendingToday();
         sliderView.setIndicatorAnimation(IndicatorAnimations.SWAP); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.FADETRANSFORMATION);
-        sliderView.setScrollTimeInSec(6);
+        sliderView.setScrollTimeInSec(15);
         return root;
     }
 
@@ -153,14 +157,19 @@ public class HomeFragment extends Fragment {
 
     //Get Popular Tv Shows
     private void getPopularTvShows() {
-        homeViewModel.getPopularTvShows("popular", apiKey).observe(this, new Observer<List<ListItem>>() {
+        homeViewModel.getTvShows(Constant.POPULAR,apiKey).observe(this, new Observer<TvShows>() {
             @Override
-            public void onChanged(List<ListItem> listItems) {
-                if (listItems != null) {
-                    Log.e(TAG, "Popula Tv Shows list is full");
-                    homeItemList.add(new HomeItem("Popular on TV", listItems));
-                    if (homeItemList != null) {
-                        getTopratedMoveis();
+            public void onChanged(TvShows tvShows) {
+
+                if (tvShows !=null){
+                    List<TvShowsList>tvShowsLists = tvShows.getResults();
+                    List<ListItem>listItemList = getTvShowsList(tvShowsLists);
+                    if (listItemList != null){
+                        homeItemList.add(new HomeItem("Top Rated Tv Shows", listItemList));
+
+                        if (homeItemList != null) {
+                            getTopratedMoveis();
+                        }
                     }
                 }
             }
@@ -169,13 +178,18 @@ public class HomeFragment extends Fragment {
 
     //Get Top Rated Tv Shows
     private void getTopRatedTvShows() {
-        homeViewModel.getPopularTvShows("top_rated", apiKey).observe(this, new Observer<List<ListItem>>() {
+
+        homeViewModel.getTvShows(Constant.TOP_RATED,apiKey).observe(this, new Observer<TvShows>() {
             @Override
-            public void onChanged(List<ListItem> listItems) {
-                if (listItems != null) {
-                    Log.e(TAG, "Top rated Tv Shows list is full");
-                    homeItemList.add(new HomeItem("Top Rated Tv Shows", listItems));
-                    addItemToHomeList(homeItemList);
+            public void onChanged(TvShows tvShows) {
+
+                if (tvShows !=null){
+                    List<TvShowsList>tvShowsLists = tvShows.getResults();
+                    List<ListItem>listItemList = getTvShowsList(tvShowsLists);
+                    if (listItemList != null){
+                        homeItemList.add(new HomeItem("Top Rated Tv Shows", listItemList));
+                        addItemToHomeList(homeItemList);
+                    }
                 }
             }
         });
@@ -196,7 +210,28 @@ public class HomeFragment extends Fragment {
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
             String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
-            ListItem listItem = new ListItem(id, title, imageUrl);
+
+            if (trendResultList.get(i).getMediaType().equals(Constant.MOVIE)) {
+                ListItem listItem = new ListItem(id, Constant.MOVIE_TYPE, title, imageUrl);
+                listItemList.add(listItem);
+            }else {
+                ListItem listItem = new ListItem(id, Constant.TV_TYPE, title, imageUrl);
+                listItemList.add(listItem);
+            }
+
+        }
+        return listItemList;
+    }
+
+    //Get Tv shows List
+    private List<ListItem>getTvShowsList(List<TvShowsList>showsLists){
+        List<ListItem>listItemList = new ArrayList<>();
+        for (int i=0; i<showsLists.size();i++){
+            int id = showsLists.get(i).getId();
+            String title = showsLists.get(i).getOriginalName();
+            String imagePath = showsLists.get(i).getPosterPath();
+            String image = "http://image.tmdb.org/t/p/w185" + imagePath;
+            ListItem listItem = new ListItem(id,Constant.TV_TYPE,title,image);
 
             listItemList.add(listItem);
         }

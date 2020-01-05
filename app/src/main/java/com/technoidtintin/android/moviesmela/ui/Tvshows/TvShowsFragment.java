@@ -99,7 +99,7 @@ public class TvShowsFragment extends Fragment {
 
     //Get list of Tv Shows on Air This week
     private void getTvShowsOnAir(){
-        tvShowsViewModel.getTvShowsOnAir(Constant.ON_THE_AIR,apiKey).observe(this, new Observer<TvShows>() {
+        tvShowsViewModel.getTvShows(Constant.ON_THE_AIR,apiKey).observe(this, new Observer<TvShows>() {
             @Override
             public void onChanged(TvShows tvShows) {
 
@@ -121,7 +121,7 @@ public class TvShowsFragment extends Fragment {
 
     //Get Shows on Air Today
     private void getShowsOnAirToday(){
-        tvShowsViewModel.getTvShowsOnAir(Constant.AIR_TODYA,apiKey).observe(this, new Observer<TvShows>() {
+        tvShowsViewModel.getTvShows(Constant.AIR_TODYA,apiKey).observe(this, new Observer<TvShows>() {
             @Override
             public void onChanged(TvShows tvShows) {
 
@@ -143,14 +143,17 @@ public class TvShowsFragment extends Fragment {
 
     //Get Popular TvShows List
     private void getPopularTvShows(){
-        tvShowsViewModel.getTvShows("popular",apiKey).observe(this, new Observer<List<ListItem>>() {
+        tvShowsViewModel.getTvShows(Constant.POPULAR,apiKey).observe(this, new Observer<TvShows>() {
             @Override
-            public void onChanged(List<ListItem> listItems) {
-
-                if (listItems != null){
-                    homeItemList.add(new HomeItem("Popular Tv Shows",listItems));
-                    if (homeItemList != null){
-                        getTopRatedTVShows();
+            public void onChanged(TvShows tvShows) {
+                if (tvShows != null){
+                    List<TvShowsList>tvShowsList = tvShows.getResults();
+                    List<ListItem>listItemList = getTvShowsList(tvShowsList);
+                    if (listItemList != null){
+                        homeItemList.add(new HomeItem("Popular Tv Shows",listItemList));
+                        if (homeItemList != null){
+                            getTopRatedTVShows();
+                        }
                     }
                 }
             }
@@ -159,13 +162,17 @@ public class TvShowsFragment extends Fragment {
 
     //Get Top Rated Tv Shows
     private void getTopRatedTVShows(){
-        tvShowsViewModel.getTvShows("top_rated",apiKey).observe(this, new Observer<List<ListItem>>() {
+        tvShowsViewModel.getTvShows(Constant.TOP_RATED,apiKey).observe(this, new Observer<TvShows>() {
             @Override
-            public void onChanged(List<ListItem> listItems) {
-                if (listItems != null){
-                    homeItemList.add(new HomeItem("Top Rated Tv Shows",listItems));
-                    if (homeItemList != null){
-                        addItemsToAdapter(homeItemList);
+            public void onChanged(TvShows tvShows) {
+                if (tvShows != null){
+                    List<TvShowsList>tvShowsList = tvShows.getResults();
+                    List<ListItem>listItemList = getTvShowsList(tvShowsList);
+                    if (listItemList != null){
+                        homeItemList.add(new HomeItem("Top Rated Tv Shows",listItemList));
+                        if (homeItemList != null){
+                            addItemsToAdapter(homeItemList);
+                        }
                     }
                 }
             }
@@ -185,7 +192,7 @@ public class TvShowsFragment extends Fragment {
             String title = showsLists.get(i).getOriginalName();
             String imagePath = showsLists.get(i).getPosterPath();
             String image = "http://image.tmdb.org/t/p/w185" + imagePath;
-            ListItem listItem = new ListItem(id,title,image);
+            ListItem listItem = new ListItem(id,Constant.TV_TYPE,title,image);
 
             listItemList.add(listItem);
         }
@@ -201,7 +208,7 @@ public class TvShowsFragment extends Fragment {
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
             String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
-            ListItem listItem = new ListItem(id, title, imageUrl);
+            ListItem listItem = new ListItem(id,Constant.TV_TYPE, title, imageUrl);
 
             listItemList.add(listItem);
         }

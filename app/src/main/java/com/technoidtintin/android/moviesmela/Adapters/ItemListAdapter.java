@@ -33,7 +33,6 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MovieV
         this.context = context;
     }
 
-
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

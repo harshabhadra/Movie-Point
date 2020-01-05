@@ -24,13 +24,8 @@ public class TvShowsViewModel extends ViewModel {
         return repository.getTrending(type,tme,apiKey);
     }
 
-    //Get list of popular tv shows
-    public LiveData<List<ListItem>>getTvShows(String path, String apiKey){
-        return repository.getTvShows(path,apiKey);
-    }
-
     //Get List of Tv Shows on Air
-    public LiveData<TvShows>getTvShowsOnAir(String path, String apiKey){
+    public LiveData<TvShows> getTvShows(String path, String apiKey){
         return repository.getTvShowsOnAir(path,apiKey);
     }
 }

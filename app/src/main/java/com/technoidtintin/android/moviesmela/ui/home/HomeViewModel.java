@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.Trending;
+import com.technoidtintin.android.moviesmela.Model.TvShows;
 import com.technoidtintin.android.moviesmela.Repository;
 
 import java.util.List;
@@ -36,5 +37,10 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<Trending>getTrending(String type, String time, String apikey){
         return repository.getTrending(type, time, apikey);
+    }
+
+    //Get List of Tv Shows on Air
+    public LiveData<TvShows> getTvShows(String path, String apiKey){
+        return repository.getTvShowsOnAir(path,apiKey);
     }
 }

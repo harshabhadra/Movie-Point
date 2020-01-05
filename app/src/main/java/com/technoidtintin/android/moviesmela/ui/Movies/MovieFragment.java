@@ -85,14 +85,18 @@ public class MovieFragment extends Fragment {
             public void onChanged(Trending trending) {
 
                 if (trending != null){
+                    Log.e(TAG,"Movie trending week list is null");
                     List<TrendResult>trendResultList = trending.getResults();
                     List<ListItem>movieList = getTrendMovies(trendResultList);
                     if (movieList != null){
+                        Log.e(TAG,"Movie trending week list is null");
                         homeItemList.add(new HomeItem("Trending This Week",movieList));
                         if (homeItemList != null){
                             getNowPlayingMovies();
                         }
                     }
+                }else {
+                    getNowPlayingMovies();
                 }
 
             }
@@ -166,9 +170,14 @@ public class MovieFragment extends Fragment {
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
             String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
-            ListItem listItem = new ListItem(id, title, imageUrl);
 
-            listItemList.add(listItem);
+            if (trendResultList.get(i).getMediaType().equals(Constant.MOVIE)) {
+                ListItem listItem = new ListItem(id, Constant.MOVIE_TYPE, title, imageUrl);
+                listItemList.add(listItem);
+            }else {
+                ListItem listItem = new ListItem(id, Constant.TV_TYPE, title, imageUrl);
+                listItemList.add(listItem);
+            }
         }
         return listItemList;
     }

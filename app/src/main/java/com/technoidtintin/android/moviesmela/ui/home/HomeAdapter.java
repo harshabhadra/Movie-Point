@@ -1,5 +1,6 @@
 package com.technoidtintin.android.moviesmela.ui.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +20,7 @@ import com.technoidtintin.android.moviesmela.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder>  {
 
     private static final String TAG = HomeAdapter.class.getSimpleName();
     private Context context;

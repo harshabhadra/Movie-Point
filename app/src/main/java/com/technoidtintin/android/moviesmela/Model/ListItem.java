@@ -6,17 +6,28 @@ import android.os.Parcelable;
 public class ListItem implements Parcelable {
 
     private int id;
+    private String type;
     private String movieTitle;
     private String moviePosterPath;
 
-    public ListItem(int id, String movieTitle, String moviePosterPath) {
+    public ListItem(int id,String type, String movieTitle, String moviePosterPath) {
         this.id = id;
+        this.type = type;
         this.movieTitle = movieTitle;
         this.moviePosterPath = moviePosterPath;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     protected ListItem(Parcel in) {
         id = in.readInt();
+        type = in.readString();
         movieTitle = in.readString();
         moviePosterPath = in.readString();
     }
@@ -65,6 +76,7 @@ public class ListItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
+        parcel.writeString(type);
         parcel.writeString(movieTitle);
         parcel.writeString(moviePosterPath);
     }

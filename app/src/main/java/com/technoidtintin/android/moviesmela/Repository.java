@@ -68,6 +68,12 @@ public class Repository {
     //Store List of Tv Shows on Air Today
     private MutableLiveData<TvShows>tvShowsTodayMutableLiveData = new MutableLiveData<>();
 
+    //Store list of popular tv shows
+    private MutableLiveData<TvShows>tvShowsPopularMutableLiveData = new MutableLiveData<>();
+
+    //Store list of Top Rated Tv Shows
+    private MutableLiveData<TvShows>tvShowsTopRatedMutableLiveData = new MutableLiveData<>();
+
     //Store list of trending Tv Shows of the day
     private MutableLiveData<Trending>trendTvDayMutableLiveData = new MutableLiveData<>();
 
@@ -80,8 +86,12 @@ public class Repository {
         getTvShowsOnAirList(path,apiKey);
         if (path.equals(Constant.ON_THE_AIR)) {
             return tvShowsOnAirMutableLiveData;
-        }else {
+        }else if (path.equals(Constant.AIR_TODYA)){
             return tvShowsTodayMutableLiveData;
+        }else if (path.equals(Constant.POPULAR)){
+            return tvShowsPopularMutableLiveData;
+        }else {
+            return tvShowsTopRatedMutableLiveData;
         }
     }
 
@@ -152,7 +162,7 @@ public class Repository {
                             String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
                             String title = movieObj.getString("title");
 
-                            ListItem listItem = new ListItem(id,title,image_url);
+                            ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
                             listItemList.add(listItem);
                         }
                         topratedMovieListMutableLiveData.setValue(listItemList);
@@ -194,7 +204,7 @@ public class Repository {
                             String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
                             String title = movieObj.getString("title");
 
-                            ListItem listItem = new ListItem(id,title,image_url);
+                            ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
                             listItemList.add(listItem);
                         }
                         popularMovieListMutableLiveData.setValue(listItemList);
@@ -236,7 +246,7 @@ public class Repository {
                             String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
                             String title = movieObj.getString("title");
 
-                            ListItem listItem = new ListItem(id,title,image_url);
+                            ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
                             listItemList.add(listItem);
                         }
                         nowPlayingMovieMutableLiveData.setValue(listItemList);
@@ -276,7 +286,7 @@ public class Repository {
                             String name = object.optString("original_name");
                             String image = object.optString("poster_path");
                             String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
-                            ListItem listItem = new ListItem(id,name,imageUrl);
+                            ListItem listItem = new ListItem(id,Constant.TV_TYPE,name,imageUrl);
                             popularTvshowsList.add(listItem);
                         }
                         if (path.equals("popular")) {
@@ -339,10 +349,15 @@ public class Repository {
             public void onResponse(Call<TvShows> call, Response<TvShows> response) {
                 Log.e(TAG,"Tv Shows on Air response is: " + response.body());
                 if (response.body()!= null && response.isSuccessful()){
+                    Log.e(TAG,"Tv Shows response suceessfull");
                     if (path.equals(Constant.ON_THE_AIR)){
                         tvShowsOnAirMutableLiveData.setValue(response.body());
-                    }else {
+                    }else if (path.equals(Constant.AIR_TODYA)){
                         tvShowsTodayMutableLiveData.setValue(response.body());
+                    }else if (path.equals(Constant.POPULAR)){
+                        tvShowsPopularMutableLiveData.setValue(response.body());
+                    }else if (path.equals(Constant.TOP_RATED)){
+                        tvShowsTopRatedMutableLiveData.setValue(response.body());
                     }
                 }
             }

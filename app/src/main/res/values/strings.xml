@@ -5,6 +5,8 @@
     <string name="title_movie">Movies</string>
     <string name="title_tv_shows">TV Shows</string>
     <string name="title_fav">Favorites</string>
+    <string name="imageUrl_posterpath">http://image.tmdb.org/t/p/w300</string>
+    <string name="imageUrl_posterpath_small">http://image.tmdb.org/t/p/w300</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -94,4 +96,8 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="backdrop_url">http://image.tmdb.org/t/p/w780</string>
 </resources>

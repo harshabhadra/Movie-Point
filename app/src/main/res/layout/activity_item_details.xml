@@ -1,118 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#212121"
-    tools:context=".ItemDetailsActivity">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/detail_appBar"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data >
+        <variable
+            name="tvDetails"
+            type="com.technoidtintin.android.moviesmela.TvDetails" />
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        style="@style/AppTheme.AppBarOverlay">
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:layout_height="match_parent"
+        android:background="#212121">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/detail_appBar"
+            style="@style/AppTheme.AppBarOverlay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <RelativeLayout
+            android:layout_height="@dimen/app_bar_height"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/detail_collapsingToolBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/item_banner_iv"
+                android:background="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@id/details_toolbar">
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:transitionName="item_banner"/>
-                <View
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/item_banner_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:transitionName="item_banner" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/view_background" />
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/details_toolbar"
+                    style="@style/AppTheme.PopupOverlay"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:background="@drawable/view_background"
-                    android:layout_alignParentBottom="true"/>
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin" />
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            </RelativeLayout>
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
-    <include layout="@layout/details_scrolling"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_anchor="@id/detail_appBar"
-        app:layout_anchorGravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/item_imageView"
+        <include
+            android:id="@+id/detail_scrolling"
+            layout="@layout/details_scrolling"
+            bind:tvDetailScrolling="@{tvDetails}"/>
+        <LinearLayout
+            android:id="@+id/title_image_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/poster_image_background"
-            android:padding="2dp"
-            android:transitionName="item_poster"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_anchor="@id/detail_appBar"
+            app:layout_anchorGravity="bottom|center">
+            <ImageView
+                android:id="@+id/item_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/poster_image_background"
+                android:padding="2dp"
+                android:layout_gravity="center"
+                android:transitionName="item_poster"
+                app:srcCompat="@mipmap/ic_launcher" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/item_last_date_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/item_rating_tv"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/item_rating_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_imageView" />
-
-        <TextView
-            android:id="@+id/item_title"
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/candal"
-            android:text="TextView"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="@+id/item_imageView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/item_imageView"
-            app:layout_constraintTop_toTopOf="@+id/item_imageView" />
-
-        <TextView
-            android:id="@+id/item_releasedate_tv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:text="TextView"
-            android:textColor="@color/colorWhite"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/item_last_date_tv"
-            app:layout_constraintEnd_toStartOf="@+id/item_last_date_tv"
-            app:layout_constraintStart_toEndOf="@+id/item_rating_tv" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

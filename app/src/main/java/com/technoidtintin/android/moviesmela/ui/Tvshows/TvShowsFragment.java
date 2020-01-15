@@ -1,5 +1,7 @@
 package com.technoidtintin.android.moviesmela.ui.Tvshows;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +38,8 @@ public class TvShowsFragment extends Fragment {
     private String apiKey;
     private List<HomeItem>homeItemList = new ArrayList<>();
 
+    private AlertDialog loadingDialog;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -48,6 +52,10 @@ public class TvShowsFragment extends Fragment {
 
         //Initializing Api key
         apiKey = getResources().getString(R.string.api_key);
+
+        //Create Loading Dialog
+        loadingDialog = createAlertDialgo(getContext());
+        loadingDialog.show();
 
         //Initializing SliderView
         sliderAdapter = new TvSliderAdapter(getContext());
@@ -92,6 +100,8 @@ public class TvShowsFragment extends Fragment {
                         homeItemList.add(new HomeItem("Trending This Week",listItemList));
                         getTvShowsOnAir();
                     }
+                }else {
+                    getTvShowsOnAir();
                 }
             }
         });
@@ -114,6 +124,8 @@ public class TvShowsFragment extends Fragment {
                             getShowsOnAirToday();
                         }
                     }
+                }else {
+                    getShowsOnAirToday();
                 }
             }
         });
@@ -136,6 +148,8 @@ public class TvShowsFragment extends Fragment {
                             getPopularTvShows();
                         }
                     }
+                }else {
+                    getPopularTvShows();
                 }
             }
         });
@@ -155,6 +169,8 @@ public class TvShowsFragment extends Fragment {
                             getTopRatedTVShows();
                         }
                     }
+                }else {
+                    getTopRatedTVShows();
                 }
             }
         });
@@ -166,6 +182,7 @@ public class TvShowsFragment extends Fragment {
             @Override
             public void onChanged(TvShows tvShows) {
                 if (tvShows != null){
+                    loadingDialog.dismiss();
                     List<TvShowsList>tvShowsList = tvShows.getResults();
                     List<ListItem>listItemList = getTvShowsList(tvShowsList);
                     if (listItemList != null){
@@ -173,6 +190,11 @@ public class TvShowsFragment extends Fragment {
                         if (homeItemList != null){
                             addItemsToAdapter(homeItemList);
                         }
+                    }
+                }else {
+                    loadingDialog.dismiss();
+                    if (homeItemList != null) {
+                        addItemsToAdapter(homeItemList);
                     }
                 }
             }
@@ -191,7 +213,7 @@ public class TvShowsFragment extends Fragment {
             int id = showsLists.get(i).getId();
             String title = showsLists.get(i).getOriginalName();
             String imagePath = showsLists.get(i).getPosterPath();
-            String image = "http://image.tmdb.org/t/p/w185" + imagePath;
+            String image = getResources().getString(R.string.imageUrl_posterpath) + imagePath;
             ListItem listItem = new ListItem(id,Constant.TV_TYPE,title,image);
 
             listItemList.add(listItem);
@@ -207,11 +229,20 @@ public class TvShowsFragment extends Fragment {
             int id = trendResultList.get(i).getId();
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
-            String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
+            String imageUrl = getResources().getString(R.string.imageUrl_posterpath) + image;
             ListItem listItem = new ListItem(id,Constant.TV_TYPE, title, imageUrl);
 
             listItemList.add(listItem);
         }
         return listItemList;
+    }
+
+    //Create Loading Dialog
+    private AlertDialog createAlertDialgo(Context context){
+        View layout = getLayoutInflater().inflate(R.layout.loading_layout,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.TransparentDialog);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

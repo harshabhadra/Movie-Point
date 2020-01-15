@@ -9,14 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 import com.technoidtintin.android.moviesmela.Constant;
-import com.technoidtintin.android.moviesmela.ItemDetailsActivity;
+import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.R;
 
@@ -46,7 +45,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MovieV
         if (listItemList != null){
             Log.e(TAG,"Movie list not null");
             final ListItem listItem = listItemList.get(position);
-            Picasso.get().load(listItem.getMoviePosterPath()).placeholder(R.mipmap.ic_launcher).into(holder.posterImage);
+            Picasso.get().load(listItem.getMoviePosterPath()).placeholder(R.drawable.tmdb)
+                    .error(R.drawable.tmdb)
+                    .into(holder.posterImage);
             holder.posterImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

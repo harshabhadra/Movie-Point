@@ -1,5 +1,7 @@
 package com.technoidtintin.android.moviesmela.ui.home;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,6 +48,8 @@ public class HomeFragment extends Fragment {
 
     private String apiKey;
 
+    private AlertDialog loadingDialog;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -57,6 +61,10 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        //Initializing loading Dialog
+        loadingDialog = createAlertDialgo(getContext());
+        loadingDialog.show();
 
         //Initializing parentRecyclerView
         parentRecycler = root.findViewById(R.id.parent_recycler);
@@ -131,6 +139,7 @@ public class HomeFragment extends Fragment {
                         getPopularTvShows();
                     }
                 } else {
+                    getPopularTvShows();
                     Log.e(TAG, "Movie list is null");
                 }
             }
@@ -149,6 +158,7 @@ public class HomeFragment extends Fragment {
                         getTopRatedTvShows();
                     }
                 } else {
+                    getTopRatedTvShows();
                     Log.e(TAG, "Top movies list is null");
                 }
             }
@@ -171,6 +181,8 @@ public class HomeFragment extends Fragment {
                             getTopratedMoveis();
                         }
                     }
+                }else {
+                    getTopratedMoveis();
                 }
             }
         });
@@ -183,12 +195,18 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(TvShows tvShows) {
 
+                loadingDialog.dismiss();
                 if (tvShows !=null){
                     List<TvShowsList>tvShowsLists = tvShows.getResults();
                     List<ListItem>listItemList = getTvShowsList(tvShowsLists);
                     if (listItemList != null){
                         homeItemList.add(new HomeItem("Top Rated Tv Shows", listItemList));
                         addItemToHomeList(homeItemList);
+                    }
+                }else {
+                    if (homeItemList != null){
+                        addItemToHomeList(homeItemList);
+
                     }
                 }
             }
@@ -209,7 +227,7 @@ public class HomeFragment extends Fragment {
             int id = trendResultList.get(i).getId();
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
-            String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
+            String imageUrl = getResources().getString(R.string.imageUrl_posterpath) + image;
 
             if (trendResultList.get(i).getMediaType().equals(Constant.MOVIE)) {
                 ListItem listItem = new ListItem(id, Constant.MOVIE_TYPE, title, imageUrl);
@@ -230,11 +248,20 @@ public class HomeFragment extends Fragment {
             int id = showsLists.get(i).getId();
             String title = showsLists.get(i).getOriginalName();
             String imagePath = showsLists.get(i).getPosterPath();
-            String image = "http://image.tmdb.org/t/p/w185" + imagePath;
+            String image = getResources().getString(R.string.imageUrl_posterpath) + imagePath;
             ListItem listItem = new ListItem(id,Constant.TV_TYPE,title,image);
 
             listItemList.add(listItem);
         }
         return listItemList;
+    }
+
+    //Create Loading Dialog
+    private AlertDialog createAlertDialgo(Context context){
+        View layout = getLayoutInflater().inflate(R.layout.loading_layout,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.TransparentDialog);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

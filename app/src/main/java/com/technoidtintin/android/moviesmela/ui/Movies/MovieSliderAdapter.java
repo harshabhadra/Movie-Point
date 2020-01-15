@@ -33,8 +33,7 @@ public class MovieSliderAdapter extends SliderViewAdapter<MovieSliderAdapter.Mov
     public void onBindViewHolder(MovieSliderViewHolder viewHolder, int position) {
 
         if (trendResultList != null){
-            viewHolder.textViewDescription.setText(trendResultList.get(position).getName());
-            String imageUrl = "http://image.tmdb.org/t/p/w500" + trendResultList.get(position).getBackdropPath();
+            String imageUrl = "http://image.tmdb.org/t/p/w1280" + trendResultList.get(position).getBackdropPath();
             Picasso.get().load(imageUrl)
                     .fit()
                     .centerCrop()
@@ -57,12 +56,10 @@ public class MovieSliderAdapter extends SliderViewAdapter<MovieSliderAdapter.Mov
 
         View itemView;
         ImageView imageViewBackground;
-        TextView textViewDescription;
 
         public MovieSliderViewHolder(View itemView) {
             super(itemView);
             imageViewBackground = itemView.findViewById(R.id.movie_slider_image);
-            textViewDescription = itemView.findViewById(R.id.movie_slider_text);
         }
     }
 }

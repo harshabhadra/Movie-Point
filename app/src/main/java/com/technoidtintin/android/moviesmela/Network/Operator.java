@@ -1,7 +1,11 @@
 package com.technoidtintin.android.moviesmela.Network;
 
+import com.technoidtintin.android.moviesmela.Model.Movies;
+import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
+import com.technoidtintin.android.moviesmela.TvDetails;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
+import com.technoidtintin.android.moviesmela.TvVideos;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,4 +22,18 @@ public interface Operator {
     @GET("/3/tv/{Path}")
     Call<TvShows>getTvOnAirList(@Path("Path")String path,
                                 @Query("api_key")String apiKey);
+
+    @GET("3/tv/{tv_id}")
+    Call<TvDetails>getTvDetails(@Path("tv_id")int tv_id, @Query("api_key")String apiKey);
+
+    @GET("3/movie/{movie_id}")
+    Call<Movies>getMovieDetails(@Path("movie_id")String movie_id, @Query("api_key")String apiKey);
+
+    @GET("3/tv/{tv_id}videos")
+    Call<TvVideos>getTvVideos(@Path("tv_id")String tv_id,
+                              @Query("api_key")String apiKey);
+
+    @GET("3/tv/{tv_id}/similar?")
+    Call<SimilarTv>getSimilarTvShows(@Path("tv_id")int tv_id,
+                                     @Query("api_key")String apiKey);
 }

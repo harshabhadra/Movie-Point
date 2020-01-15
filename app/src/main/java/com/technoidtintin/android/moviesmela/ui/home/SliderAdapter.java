@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.squareup.picasso.Picasso;
 import com.technoidtintin.android.moviesmela.Constant;
-import com.technoidtintin.android.moviesmela.ItemDetailsActivity;
+import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
 import com.technoidtintin.android.moviesmela.R;
 
@@ -38,8 +38,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
     public void onBindViewHolder(final SliderViewHolder viewHolder, int position) {
 
         if (trendResultList != null){
-            viewHolder.textViewDescription.setText(trendResultList.get(position).getName());
-            String imageUrl = "http://image.tmdb.org/t/p/w500" + trendResultList.get(position).getBackdropPath();
+            String imageUrl = "http://image.tmdb.org/t/p/w1280" + trendResultList.get(position).getBackdropPath();
             Picasso.get().load(imageUrl)
                     .fit()
                     .centerCrop()
@@ -73,12 +72,10 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderViewHol
 
         View itemView;
         ImageView imageViewBackground;
-        TextView textViewDescription;
 
         public SliderViewHolder(View itemView) {
             super(itemView);
             imageViewBackground = itemView.findViewById(R.id.slider_image);
-            textViewDescription = itemView.findViewById(R.id.slider_text);
         }
     }
 }

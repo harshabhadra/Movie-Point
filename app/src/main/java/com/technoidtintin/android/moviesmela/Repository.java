@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.technoidtintin.android.moviesmela.Model.ListItem;
+import com.technoidtintin.android.moviesmela.Model.Movies;
+import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
 import com.technoidtintin.android.moviesmela.Network.ApiServices;
@@ -79,6 +81,42 @@ public class Repository {
 
     //Store list of Trending Tv shows of this week
     private MutableLiveData<Trending>trendTvWeekMutableLiveData = new MutableLiveData<>();
+
+    //Store Movie Details
+    private MutableLiveData<Movies>movieDetailsMutableLiveData = new MutableLiveData<>();
+
+    //Store Tv Details
+    private MutableLiveData<TvDetails>tvDetailsMutableLiveData = new MutableLiveData<>();
+
+    //Store TvVideos
+    private MutableLiveData<TvVideos>tvVideosMutableLiveData = new MutableLiveData<>();
+
+    //Store similar TvShows data
+    private MutableLiveData<SimilarTv>similarTvMutableLiveData = new MutableLiveData<>();
+
+    //Get Similar Tv Shows
+    public LiveData<SimilarTv>getSimilarTvShows(int tvId, String apiKey){
+        getSimilarTvShowsList(tvId,apiKey);
+        return similarTvMutableLiveData;
+    }
+
+    //Get TvVideos
+    public LiveData<TvVideos>getTvVideosList(String tv_id, String apiKey){
+        getTvVideos(tv_id,apiKey);
+        return tvVideosMutableLiveData;
+    }
+
+    //Get Movie Details
+    public LiveData<Movies>getMovieDetails(String movieId, String apiKey){
+        getDetialsMovie(movieId,apiKey);
+        return movieDetailsMutableLiveData;
+    }
+
+    //Get Tv Details
+    public LiveData<TvDetails>getTvDetails(int tvId, String apiKey){
+        getDetailsTv(tvId,apiKey);
+        return tvDetailsMutableLiveData;
+    }
 
     //Get List of Tv Shows on Air
     public LiveData<TvShows>getTvShowsOnAir(String path, String apiKey){
@@ -159,7 +197,7 @@ public class Repository {
 
                             int id = movieObj.getInt("id");
                             String posterImage = movieObj.getString("poster_path");
-                            String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
+                            String image_url = "http://image.tmdb.org/t/p/w300" + posterImage;
                             String title = movieObj.getString("title");
 
                             ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
@@ -177,6 +215,7 @@ public class Repository {
             public void onFailure(Call<String> call, Throwable t) {
 
                 Log.e(TAG,"Failed getting response: " + t.getMessage());
+                topratedMovieListMutableLiveData.setValue(null);
             }
         });
     }
@@ -201,7 +240,7 @@ public class Repository {
 
                             int id = movieObj.getInt("id");
                             String posterImage = movieObj.getString("poster_path");
-                            String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
+                            String image_url = "http://image.tmdb.org/t/p/w300" + posterImage;
                             String title = movieObj.getString("title");
 
                             ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
@@ -219,6 +258,7 @@ public class Repository {
             public void onFailure(Call<String> call, Throwable t) {
 
                 Log.e(TAG,"Failed getting response: " + t.getMessage());
+                popularMovieListMutableLiveData.setValue(null);
             }
         });
     }
@@ -243,7 +283,7 @@ public class Repository {
 
                             int id = movieObj.getInt("id");
                             String posterImage = movieObj.getString("poster_path");
-                            String image_url = "http://image.tmdb.org/t/p/w185" + posterImage;
+                            String image_url = "http://image.tmdb.org/t/p/w300" + posterImage;
                             String title = movieObj.getString("title");
 
                             ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
@@ -261,6 +301,7 @@ public class Repository {
             public void onFailure(Call<String> call, Throwable t) {
 
                 Log.e(TAG,"Failed getting response: " + t.getMessage());
+                nowPlayingMovieMutableLiveData.setValue(null);
             }
         });
     }
@@ -285,7 +326,7 @@ public class Repository {
                             int id = object.optInt("id");
                             String name = object.optString("original_name");
                             String image = object.optString("poster_path");
-                            String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
+                            String imageUrl = "http://image.tmdb.org/t/p/w300" + image;
                             ListItem listItem = new ListItem(id,Constant.TV_TYPE,name,imageUrl);
                             popularTvshowsList.add(listItem);
                         }
@@ -304,6 +345,11 @@ public class Repository {
             public void onFailure(Call<String> call, Throwable t) {
 
                 Log.e(TAG,"Popular Tv Shows response failed: " + t.getMessage());
+                if (path.equals("popular")) {
+                    popularTvItemsMutableLiveData.setValue(null);
+                }else {
+                    topRatedTvMutableLiveData.setValue(null);
+                }
             }
         });
     }
@@ -315,7 +361,7 @@ public class Repository {
             @Override
             public void onResponse(Call<Trending> call, Response<Trending> response) {
 
-                Log.e(TAG,"Response is : " + response.body());
+                Log.e(TAG,"Trending Response is : " + response.body());
                 if (response.isSuccessful() && response.body() != null){
                     Log.e(TAG,"Trending response is successful: " + response.body().getTotalPages());
 
@@ -337,6 +383,17 @@ public class Repository {
             public void onFailure(Call<Trending> call, Throwable t) {
 
                 Log.e(TAG,"Trending response is failure: " + t.getMessage());
+                if (type.equals(Constant.ALL )&& time.equals(Constant.DAY)) {
+                    trendTodayMutableLiveData.setValue(null);
+                }else if (type.equals(Constant.ALL )&& time.equals(Constant.WEEK)){
+                    trendWeekMutableLiveData.setValue(null);
+                }else if (type.equals(Constant.MOVIE)&& time.equals(Constant.DAY)){
+                    trendMovieDayMutableLiveData.setValue(null);
+                }else if (type.equals(Constant.TV)&& time.equals(Constant.DAY)){
+                    trendTvDayMutableLiveData.setValue(null);
+                }else {
+                    trendTvWeekMutableLiveData.setValue(null);
+                }
             }
         });
     }
@@ -366,6 +423,108 @@ public class Repository {
             public void onFailure(Call<TvShows> call, Throwable t) {
 
                 Log.e(TAG,"Tv Shows on air response failure: " + t.getMessage());
+                if (path.equals(Constant.ON_THE_AIR)){
+                    tvShowsOnAirMutableLiveData.setValue(null);
+                }else if (path.equals(Constant.AIR_TODYA)){
+                    tvShowsTodayMutableLiveData.setValue(null);
+                }else if (path.equals(Constant.POPULAR)){
+                    tvShowsPopularMutableLiveData.setValue(null);
+                }else if (path.equals(Constant.TOP_RATED)){
+                    tvShowsTopRatedMutableLiveData.setValue(null);
+                }
+            }
+        });
+    }
+
+    //Network call to get Tv Shows Details
+    private void getDetailsTv(int tvId, String apiKey) {
+
+        operator.getTvDetails(tvId,apiKey).enqueue(new Callback<TvDetails>() {
+            @Override
+            public void onResponse(Call<TvDetails> call, Response<TvDetails> response) {
+                Log.e(TAG,"TV details response: " + response.body());
+                if (response.isSuccessful() && response.body()!= null){
+                    Log.e(TAG,"Tv Shows details response is successful");
+                    tvDetailsMutableLiveData.setValue(response.body());
+                }else {
+                    tvDetailsMutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvDetails> call, Throwable t) {
+
+                Log.e(TAG,"Tv shows details response is failure: " + t.getMessage());
+                tvDetailsMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network call to get Movies details
+    private void getDetialsMovie(String movieId, String apiKey) {
+
+        operator.getMovieDetails(movieId,apiKey).enqueue(new Callback<Movies>() {
+            @Override
+            public void onResponse(Call<Movies> call, Response<Movies> response) {
+                if (response.isSuccessful()&& response.body() != null){
+                    Log.e(TAG, "Movie details response is successful");
+                    movieDetailsMutableLiveData.setValue(response.body());
+                }else {
+                    movieDetailsMutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Movies> call, Throwable t) {
+
+                Log.e(TAG,"Movie details response is failure: " + t.getMessage());
+                movieDetailsMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network call to get Tv Videos
+    private void getTvVideos(String tv_id, String apiKey) {
+
+        operator.getTvVideos(tv_id,apiKey).enqueue(new Callback<TvVideos>() {
+            @Override
+            public void onResponse(Call<TvVideos> call, Response<TvVideos> response) {
+                Log.e(TAG,"Tv Videos response : " + response.body());
+                if (response.body() != null && response.isSuccessful()){
+                    Log.e(TAG, "Tv Videos response is successful");
+                    tvVideosMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvVideos> call, Throwable t) {
+
+                Log.e(TAG,"Tv Videos response is failed: " + t.getMessage());
+                tvVideosMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network reqeuest to get Similar Tv Shows
+    private void getSimilarTvShowsList(int tvId, String apiKey) {
+
+        operator.getSimilarTvShows(tvId,apiKey).enqueue(new Callback<SimilarTv>() {
+            @Override
+            public void onResponse(Call<SimilarTv> call, Response<SimilarTv> response) {
+
+                Log.e(TAG,"Similar Tv Shows response : " + response.body());
+                if (response.body() != null && response.isSuccessful()) {
+                    Log.e(TAG,"Similar Tv Shows response is successful: "
+                            + response.body().getPage() + ", " + response.body().getTotalResults());
+                    similarTvMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimilarTv> call, Throwable t) {
+
+                Log.e(TAG,"Similar Tv Shows response is failure: "  + t.getMessage());
+                similarTvMutableLiveData.setValue(null);
             }
         });
     }

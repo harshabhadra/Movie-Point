@@ -1,5 +1,7 @@
 package com.technoidtintin.android.moviesmela.ui.Movies;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +38,8 @@ public class MovieFragment extends Fragment {
     private static final String TAG = MovieFragment.class.getSimpleName();
     private String apiKey;
 
+    private AlertDialog loadingDialog;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,6 +48,10 @@ public class MovieFragment extends Fragment {
 
         //Initializing DataBinding
         fragmentMovieBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_movie, container, false);
+
+        //Create Loading Dialog
+        loadingDialog = createAlertDialgo(getContext());
+        loadingDialog.show();
 
         //Initializing Slider Adapter
         sliderAdapter = new MovieSliderAdapter(getContext());
@@ -113,6 +121,8 @@ public class MovieFragment extends Fragment {
                     if (homeItemList != null){
                         getPopularMovieList();
                     }
+                }else {
+                    getPopularMovieList();
                 }
             }
         });
@@ -132,6 +142,7 @@ public class MovieFragment extends Fragment {
                     }
                 } else {
                     Log.e(TAG, "Movie list is null");
+                    getTopratedMoveis();
                 }
             }
         });
@@ -146,9 +157,14 @@ public class MovieFragment extends Fragment {
                     Log.e(TAG, "Top movies list is full");
                     homeItemList.add(new HomeItem("Top Rated Movies", listItems));
                     if (homeItemList != null) {
+                        loadingDialog.dismiss();
                         addItemToHomeList(homeItemList);
                     }
                 } else {
+                    if (homeItemList != null){
+                        addItemToHomeList(homeItemList);
+                    }
+                    loadingDialog.dismiss();
                     Log.e(TAG, "Top movies list is null");
                 }
             }
@@ -169,7 +185,7 @@ public class MovieFragment extends Fragment {
             int id = trendResultList.get(i).getId();
             String title = trendResultList.get(i).getOriginalTitle();
             String image = trendResultList.get(i).getPosterPath();
-            String imageUrl = "http://image.tmdb.org/t/p/w185" + image;
+            String imageUrl = getResources().getString(R.string.imageUrl_posterpath) + image;
 
             if (trendResultList.get(i).getMediaType().equals(Constant.MOVIE)) {
                 ListItem listItem = new ListItem(id, Constant.MOVIE_TYPE, title, imageUrl);
@@ -180,5 +196,14 @@ public class MovieFragment extends Fragment {
             }
         }
         return listItemList;
+    }
+
+    //Create Loading Dialog
+    private AlertDialog createAlertDialgo(Context context){
+        View layout = getLayoutInflater().inflate(R.layout.loading_layout,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.TransparentDialog);
+        builder.setCancelable(false);
+        builder.setView(layout);
+        return builder.create();
     }
 }

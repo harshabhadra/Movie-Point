@@ -33,8 +33,7 @@ public class TvSliderAdapter extends SliderViewAdapter<TvSliderAdapter.TvSliderV
     public void onBindViewHolder(TvSliderViewHolder viewHolder, int position) {
 
         if (trendResultList != null){
-            viewHolder.textView.setText(trendResultList.get(position).getName());
-            String imageUrl = "http://image.tmdb.org/t/p/w500" + trendResultList.get(position).getBackdropPath();
+            String imageUrl = "http://image.tmdb.org/t/p/w1280" + trendResultList.get(position).getBackdropPath();
             Picasso.get().load(imageUrl)
                     .fit()
                     .centerCrop()
@@ -55,13 +54,11 @@ public class TvSliderAdapter extends SliderViewAdapter<TvSliderAdapter.TvSliderV
     class TvSliderViewHolder extends SliderViewAdapter.ViewHolder{
 
         ImageView imageView;
-        TextView textView;
 
         public TvSliderViewHolder(View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.tv_slider_image);
-            textView = itemView.findViewById(R.id.tv_slider_text);
         }
     }
 }

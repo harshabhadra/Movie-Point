@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="moviedetailScrolling"
+            type="com.technoidtintin.android.moviesmela.Movies" />
+    </data>
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="120dp"
+    android:background="@color/colorBackgroundDark"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="A long Movie Name"
+            android:textColor="@color/colorWhite"
+            style="@style/TextAppearance.AppCompat.Headline"
+            android:gravity="center"
+            android:text="@{moviedetailScrolling.title}"
+            android:layout_margin="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{moviedetailScrolling.tagline}"
+            tools:text="A Even longer TagLine than Movie name"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            style="@style/TextAppearance.AppCompat.Medium"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/movie_release_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="28-03-1996"
+                android:text="@{moviedetailScrolling.releaseDate}"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="@+id/release_date_label"
+                app:layout_constraintStart_toStartOf="@+id/release_date_label"
+                app:layout_constraintTop_toBottomOf="@+id/release_date_label" />
+
+            <TextView
+                android:id="@+id/release_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="16dp"
+                android:text="Release Date"
+                android:textColor="@color/colorWhite"
+                style="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/movie_status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="48dp"
+                android:text="Release Status"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/movie_status_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="Released"
+                android:text="@{moviedetailScrolling.status}"
+                android:textColor="@color/colorAccent"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="@+id/movie_status_label"
+                app:layout_constraintStart_toStartOf="@+id/movie_status_label"
+                app:layout_constraintTop_toBottomOf="@+id/movie_status_label" />
+
+            <TextView
+                android:id="@+id/movie_rating_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Rating"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                style="@style/TextAppearance.AppCompat.Medium"
+                app:layout_constraintEnd_toEndOf="@+id/movie_release_tv"
+                app:layout_constraintStart_toStartOf="@+id/release_date_label"
+                app:layout_constraintTop_toBottomOf="@id/movie_release_tv" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                tools:text="7.5/10"
+                android:text="@{String.valueOf(moviedetailScrolling.voteAverage) + `/10`}"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/movie_rating_label"
+                app:layout_constraintStart_toStartOf="@+id/movie_rating_label"
+                app:layout_constraintTop_toBottomOf="@id/movie_rating_label" />
+
+            <TextView
+                android:id="@+id/movie_totoal_vote_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Vote Count"
+                android:textColor="@color/colorWhite"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="@+id/movie_status_tv"
+                app:layout_constraintStart_toStartOf="@+id/movie_status_tv"
+                app:layout_constraintTop_toBottomOf="@+id/movie_status_tv" />
+
+            <TextView
+                android:id="@+id/movie_total_vote_tv"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                tools:text="1445"
+                android:text="@{String.valueOf(moviedetailScrolling.voteCount)}"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/movie_totoal_vote_label"
+                app:layout_constraintStart_toStartOf="@+id/movie_totoal_vote_label"
+                app:layout_constraintTop_toBottomOf="@+id/movie_totoal_vote_label" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/movie_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
+            android:drawablePadding="16dp"
+            android:text="Movie Cast"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movie_cast_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
+            android:drawablePadding="16dp"
+            android:text="Reiews"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/review_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Similar Movies"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:paddingStart="16dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/similar_movies_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+</layout>

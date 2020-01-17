@@ -12,6 +12,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBackgroundDark"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -151,21 +152,6 @@
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/details_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
             <TextView
                 android:id="@+id/textView"
                 style="@style/TextAppearance.AppCompat.Medium"
@@ -224,18 +210,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <TextView
-                android:id="@+id/textView7"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Seasons"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-            <TextView
                 android:id="@+id/textView8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -251,6 +225,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/rating_tv" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/cast_memember_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cast Memebers"
+                android:textColor="@color/colorWhite"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
+                android:drawablePadding="16dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tv_cast_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"/>
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Seasons"
+                android:textColor="@color/colorWhite" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/details_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

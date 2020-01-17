@@ -3,6 +3,7 @@ package com.technoidtintin.android.moviesmela.ui.ItemDetails.TvDetails;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -25,6 +26,8 @@ import com.technoidtintin.android.moviesmela.Model.Season;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.SimilarTvResults;
 import com.technoidtintin.android.moviesmela.R;
+import com.technoidtintin.android.moviesmela.TvCast;
+import com.technoidtintin.android.moviesmela.TvCredits;
 import com.technoidtintin.android.moviesmela.TvDetails;
 import com.technoidtintin.android.moviesmela.databinding.ActivityItemDetailsBinding;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
@@ -34,7 +37,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TvDetailsFragment extends Fragment {
+public class TvDetailsFragment extends Fragment implements View.OnClickListener {
 
     private String TAG = TvDetailsFragment.class.getSimpleName();
     private ActivityItemDetailsBinding itemDetailsBinding;
@@ -42,15 +45,16 @@ public class TvDetailsFragment extends Fragment {
 
     private int itemId;
     private String apiKey;
-    private String mediaType;
     private String backDrop;
-    private String poster;
+    private boolean castListVisisble = false;
     private ListItem listItem;
     private AlertDialog loadingDialog;
 
     private TvSeasonAdapter seasonAdapter;
 
     private SimilarTvAdapter similarTvAdapter;
+
+    private TvCastAdapters castAdapters;
 
     public TvDetailsFragment() {
         // Required empty public constructor
@@ -87,11 +91,11 @@ public class TvDetailsFragment extends Fragment {
             public void onOffsetChanged(AppBarLayout appBarLayout, int i) {
                 if (Math.abs(i) - appBarLayout.getTotalScrollRange() == 0) {
                     //  Collapsed
-                    itemDetailsBinding.titleImageLayout.setVisibility(View.GONE);
+                    itemDetailsBinding.itemImageView.setVisibility(View.GONE);
                     itemDetailsBinding.detailsToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 } else {
                     //Expanded
-                    itemDetailsBinding.titleImageLayout.setVisibility(View.VISIBLE);
+                    itemDetailsBinding.itemImageView.setVisibility(View.VISIBLE);
                     itemDetailsBinding.detailsToolbar.setBackgroundColor(Color.TRANSPARENT);
                 }
             }
@@ -110,12 +114,13 @@ public class TvDetailsFragment extends Fragment {
         loadingDialog.show();
 
         //Get Tv Shows Details
+        getTvShowsDetails(itemId);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                getTvShowsDetails(itemId);
+
             }
         },4000);
 
@@ -133,8 +138,20 @@ public class TvDetailsFragment extends Fragment {
                 LinearLayoutManager.HORIZONTAL, false));
         similarTvAdapter = new SimilarTvAdapter(getContext());
         itemDetailsBinding.detailScrolling.similarTvRecyclerView.setAdapter(similarTvAdapter);
-
         getSimilarTvShows(itemId, apiKey);
+
+        //Get Tv Shows cast list and set up the Cast RecyclerView
+        itemDetailsBinding.detailScrolling.tvCastRecycler.setHasFixedSize(true);
+        itemDetailsBinding.detailScrolling.tvCastRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL,false));
+
+        //Initializing Cast Adapters
+        castAdapters = new TvCastAdapters(getContext());
+        itemDetailsBinding.detailScrolling.tvCastRecycler.setAdapter(castAdapters);
+        getTvCastDetails(itemId);
+
+        itemDetailsBinding.detailScrolling.castMememberLabel.setOnClickListener(this);
+
         return itemDetailsBinding.getRoot();
     }
 
@@ -177,13 +194,29 @@ public class TvDetailsFragment extends Fragment {
         });
     }
 
+    //Get Cast Details
+    private void getTvCastDetails(int tvid){
+
+        tvDetailsViewModel.getTvCredits(tvid,apiKey).observe(this, new Observer<TvCredits>() {
+            @Override
+            public void onChanged(TvCredits tvCredits) {
+
+                if (tvCredits != null){
+                    Log.e(TAG,"Tv Credits are full");
+                    List<TvCast>castList = tvCredits.getCast();
+                    castAdapters.setTvCastList(castList);
+                }else {
+                    Log.e(TAG,"Unable to get Tv Casts");
+                }
+            }
+        });
+    }
     //Set TvDetails Layout
     private void setTvDetailsLayout(TvDetails tvDetails) {
 
         List<Season> seasonList = tvDetails.getSeasons();
         seasonAdapter.setSeasonList(seasonList);
 
-        poster = getResources().getString(R.string.imageUrl_posterpath_small) + tvDetails.getPosterPath();
         backDrop = getResources().getString(R.string.backdrop_url) + tvDetails.getBackdropPath();
         String rating = String.valueOf(tvDetails.getVoteAverage());
         itemDetailsBinding.setTvDetails(tvDetails);
@@ -200,5 +233,24 @@ public class TvDetailsFragment extends Fragment {
         builder.setCancelable(false);
         builder.setView(view);
         return builder.create();
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (view.equals(itemDetailsBinding.detailScrolling.castMememberLabel)){
+            if (!castListVisisble) {
+                itemDetailsBinding.detailScrolling.tvCastRecycler.setVisibility(View.VISIBLE);
+                itemDetailsBinding.detailScrolling.castMememberLabel
+                        .setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_arrow_drop_up_white_24dp,0);
+                castListVisisble = true;
+            }else {
+                itemDetailsBinding.detailScrolling.tvCastRecycler.setVisibility(View.GONE);
+                itemDetailsBinding.detailScrolling.castMememberLabel
+                        .setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_arrow_drop_down_white_24dp,0);
+
+                castListVisisble = false;
+            }
+        }
     }
 }

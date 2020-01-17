@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Movies Point</string>
-    <string name="api_key"></string>
+    <string name="api_key">30f3bccb9887629e51a30d4a7d4d9dd8</string>
     <string name="title_home">Home</string>
     <string name="title_movie">Movies</string>
     <string name="title_tv_shows">TV Shows</string>
@@ -99,5 +99,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="backdrop_url">http://image.tmdb.org/t/p/w780</string>
+    <string name="backdrop_url">http://image.tmdb.org/t/p/w1280</string>
 </resources>

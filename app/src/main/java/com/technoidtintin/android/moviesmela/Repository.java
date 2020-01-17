@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.technoidtintin.android.moviesmela.Model.ListItem;
-import com.technoidtintin.android.moviesmela.Model.Movies;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
@@ -94,6 +93,15 @@ public class Repository {
     //Store similar TvShows data
     private MutableLiveData<SimilarTv>similarTvMutableLiveData = new MutableLiveData<>();
 
+    //Store Tv Credits
+    private MutableLiveData<TvCredits>tvCreditsMutableLiveData = new MutableLiveData<>();
+
+    //Get Tv Credits
+    public LiveData<TvCredits>getTvCredits(int tv_id, String apiKey){
+        getTvCreditsLiveData(tv_id,apiKey);
+        return tvCreditsMutableLiveData;
+    }
+
     //Get Similar Tv Shows
     public LiveData<SimilarTv>getSimilarTvShows(int tvId, String apiKey){
         getSimilarTvShowsList(tvId,apiKey);
@@ -107,7 +115,7 @@ public class Repository {
     }
 
     //Get Movie Details
-    public LiveData<Movies>getMovieDetails(String movieId, String apiKey){
+    public LiveData<Movies>getMovieDetails(int movieId, String apiKey){
         getDetialsMovie(movieId,apiKey);
         return movieDetailsMutableLiveData;
     }
@@ -461,7 +469,7 @@ public class Repository {
     }
 
     //Network call to get Movies details
-    private void getDetialsMovie(String movieId, String apiKey) {
+    private void getDetialsMovie(int movieId, String apiKey) {
 
         operator.getMovieDetails(movieId,apiKey).enqueue(new Callback<Movies>() {
             @Override
@@ -525,6 +533,28 @@ public class Repository {
 
                 Log.e(TAG,"Similar Tv Shows response is failure: "  + t.getMessage());
                 similarTvMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network request to get Tv Credits
+    private void getTvCreditsLiveData(int tv_id, String apiKey) {
+
+        operator.getTvCredits(tv_id,apiKey).enqueue(new Callback<TvCredits>() {
+            @Override
+            public void onResponse(Call<TvCredits> call, Response<TvCredits> response) {
+
+                if (response.isSuccessful()&& response.body() != null){
+                    Log.e(TAG,"Tv Credit response is successful");
+                    tvCreditsMutableLiveData.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TvCredits> call, Throwable t) {
+
+                Log.e(TAG,"Tv Credits Resposne is failure: " + t.getMessage());
+                tvCreditsMutableLiveData.setValue(null);
             }
         });
     }

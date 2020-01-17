@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.R;
+import com.technoidtintin.android.moviesmela.ui.ItemDetails.MovieDetails.MovieDetailsFragment;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.TvDetails.TvDetailsFragment;
 
 public class ItemDetailsActivity extends AppCompatActivity {
@@ -34,6 +35,8 @@ public class ItemDetailsActivity extends AppCompatActivity {
             mediaType = listItem.getType();
             if (mediaType.equals(Constant.TV_TYPE)) {
                 fragmentTransaction.replace(R.id.details_container, tvDetailsFragment).commit();
+            }else if (mediaType.equals(Constant.MOVIE_TYPE)){
+                fragmentTransaction.replace(R.id.details_container,new MovieDetailsFragment()).commit();
             }
 
         }

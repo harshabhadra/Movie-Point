@@ -60,25 +60,27 @@
             android:id="@+id/detail_scrolling"
             layout="@layout/details_scrolling"
             bind:tvDetailScrolling="@{tvDetails}"/>
-        <LinearLayout
-            android:id="@+id/title_image_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_anchor="@id/detail_appBar"
-            app:layout_anchorGravity="bottom|center">
+
             <ImageView
                 android:id="@+id/item_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/poster_image_background"
                 android:padding="2dp"
-                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_anchor="@id/detail_appBar"
+                app:layout_anchorGravity="bottom|center"
                 android:transitionName="item_poster"
                 app:srcCompat="@mipmap/ic_launcher" />
-        </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/tv_details_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_favorite_black_24dp"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

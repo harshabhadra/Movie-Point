@@ -96,6 +96,15 @@ public class Repository {
     //Store Tv Credits
     private MutableLiveData<TvCredits>tvCreditsMutableLiveData = new MutableLiveData<>();
 
+    //Store Movie Credits
+    private MutableLiveData<MovieCredits>movieCreditsMutableLiveData = new MutableLiveData<>();
+
+    //Get Movie Credits
+    public LiveData<MovieCredits>getMovieCredits(int id, String apiKey){
+        getMovieCast(id,apiKey);
+        return movieCreditsMutableLiveData;
+    }
+
     //Get Tv Credits
     public LiveData<TvCredits>getTvCredits(int tv_id, String apiKey){
         getTvCreditsLiveData(tv_id,apiKey);
@@ -555,6 +564,30 @@ public class Repository {
 
                 Log.e(TAG,"Tv Credits Resposne is failure: " + t.getMessage());
                 tvCreditsMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network call to get Movie Cast
+    private void getMovieCast(int id, String apiKey) {
+
+        operator.getMovieCredits(id, apiKey).enqueue(new Callback<MovieCredits>() {
+            @Override
+            public void onResponse(Call<MovieCredits> call, Response<MovieCredits> response) {
+                Log.e(TAG,"Movie credit response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Movie Credit response is successful: " + response.body().getId());
+                    movieCreditsMutableLiveData.setValue(response.body());
+                }else {
+                    movieCreditsMutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieCredits> call, Throwable t) {
+
+                Log.e(TAG,"Movie credit response is failure: " + t.getMessage());
+                movieCreditsMutableLiveData.setValue(null);
             }
         });
     }

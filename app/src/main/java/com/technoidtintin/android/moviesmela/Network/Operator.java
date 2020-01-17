@@ -1,5 +1,6 @@
 package com.technoidtintin.android.moviesmela.Network;
 
+import com.technoidtintin.android.moviesmela.MovieCredits;
 import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
@@ -41,4 +42,9 @@ public interface Operator {
     @GET("3/tv/{tv_id}/credits")
     Call<TvCredits>getTvCredits(@Path("tv_id")int tv_id,
                                 @Query("api_key")String apiKey);
+
+    @GET("3/movie/{movie_id}/credits")
+    Call<MovieCredits>getMovieCredits(@Path("movie_id")int movie_id,
+                                      @Query("api_key")String apiKey);
+    
 }

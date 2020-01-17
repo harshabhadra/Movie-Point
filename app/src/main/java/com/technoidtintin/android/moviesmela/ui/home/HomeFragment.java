@@ -68,7 +68,6 @@ public class HomeFragment extends Fragment {
 
         //Initializing parentRecyclerView
         parentRecycler = root.findViewById(R.id.parent_recycler);
-        parentRecycler.setHasFixedSize(true);
         parentRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         homeAdapter = new HomeAdapter(getContext());
         parentRecycler.setAdapter(homeAdapter);

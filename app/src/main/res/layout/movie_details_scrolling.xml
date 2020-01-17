@@ -11,12 +11,12 @@
 <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="120dp"
     android:background="@color/colorBackgroundDark"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         android:orientation="vertical">
 
         <TextView
@@ -27,7 +27,9 @@
             style="@style/TextAppearance.AppCompat.Headline"
             android:gravity="center"
             android:text="@{moviedetailScrolling.title}"
-            android:layout_margin="16dp"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,6 +158,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:text="@{moviedetailScrolling.overview}"
             android:layout_marginBottom="16dp"/>
         <TextView
             android:layout_width="match_parent"
@@ -167,7 +172,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
-            android:drawablePadding="16dp"
             android:text="Movie Cast"/>
 
         <androidx.recyclerview.widget.RecyclerView

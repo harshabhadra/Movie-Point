@@ -92,7 +92,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
                 if (Math.abs(i) - appBarLayout.getTotalScrollRange() == 0) {
                     //  Collapsed
                     itemDetailsBinding.itemImageView.setVisibility(View.GONE);
-                    itemDetailsBinding.detailsToolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    itemDetailsBinding.detailsToolbar.setBackgroundColor(getResources().getColor(R.color.colorBackgroundDark));
                 } else {
                     //Expanded
                     itemDetailsBinding.itemImageView.setVisibility(View.VISIBLE);

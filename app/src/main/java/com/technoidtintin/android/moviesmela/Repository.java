@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.technoidtintin.android.moviesmela.Model.ListItem;
+import com.technoidtintin.android.moviesmela.Model.MovieCredits;
+import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
@@ -98,6 +100,15 @@ public class Repository {
 
     //Store Movie Credits
     private MutableLiveData<MovieCredits>movieCreditsMutableLiveData = new MutableLiveData<>();
+
+    //Store Similar Movies
+    private MutableLiveData<SimilarMovies>similarMoviesMutableLiveData = new MutableLiveData<>();
+
+    //Get Similar Movies
+    public LiveData<SimilarMovies>getSimilarMovies(int movieId, String apiKey){
+        getSimilarMovieList(movieId,apiKey);
+        return similarMoviesMutableLiveData;
+    }
 
     //Get Movie Credits
     public LiveData<MovieCredits>getMovieCredits(int id, String apiKey){
@@ -588,6 +599,31 @@ public class Repository {
 
                 Log.e(TAG,"Movie credit response is failure: " + t.getMessage());
                 movieCreditsMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network call to get Similar Movies
+    private void getSimilarMovieList(int movieId, String apiKey) {
+
+        operator.getSimilarMovies(movieId,apiKey).enqueue(new Callback<SimilarMovies>() {
+            @Override
+            public void onResponse(Call<SimilarMovies> call, Response<SimilarMovies> response) {
+
+                Log.e(TAG,"Similar Movies Response is : " + response.body());
+                if (response.body() != null && response.isSuccessful()){
+                    Log.e(TAG,"Similar Movies response is successful: " + response.body().totalPages);
+                    similarMoviesMutableLiveData.setValue(response.body());
+                }else {
+                    similarMoviesMutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SimilarMovies> call, Throwable t) {
+
+                Log.e(TAG,"Similar movie response is failure: " + t.getMessage());
+                similarMoviesMutableLiveData.setValue(null);
             }
         });
     }

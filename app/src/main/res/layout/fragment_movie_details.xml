@@ -80,6 +80,7 @@
         app:fabSize="normal"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:backgroundTint="@color/border"
         android:src="@drawable/ic_favorite_black_24dp"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -21,11 +21,13 @@ import android.view.ViewGroup;
 import com.google.android.material.appbar.AppBarLayout;
 import com.squareup.picasso.Picasso;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
-import com.technoidtintin.android.moviesmela.MovieCast;
-import com.technoidtintin.android.moviesmela.MovieCreditAdapter;
-import com.technoidtintin.android.moviesmela.MovieCredits;
+import com.technoidtintin.android.moviesmela.Model.MovieCast;
+import com.technoidtintin.android.moviesmela.Model.MovieCredits;
+import com.technoidtintin.android.moviesmela.Model.SimilarMovieResults;
+import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.R;
+import com.technoidtintin.android.moviesmela.SimilarMoviesAdapter;
 import com.technoidtintin.android.moviesmela.databinding.FragmentMovieDetailsBinding;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
 
@@ -50,6 +52,7 @@ public class MovieDetailsFragment extends Fragment {
     private AlertDialog loadingDialog;
 
     private MovieCreditAdapter movieCreditAdapter;
+    private SimilarMoviesAdapter similarMoviesAdapter;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
@@ -116,7 +119,18 @@ public class MovieDetailsFragment extends Fragment {
         //Initializing the MovieCredit adapter
         movieCreditAdapter = new MovieCreditAdapter(getContext());
         movieDetailsBinding.movieDetailsScrolling.movieCastRecycler.setAdapter(movieCreditAdapter);
+
+        //Getting Movie credits
         getMovieCast(movieId,apiKey);
+
+        //Initialize Similar Movies Adapter
+        movieDetailsBinding.movieDetailsScrolling.similarMoviesRecycler
+                .setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        similarMoviesAdapter = new SimilarMoviesAdapter(getContext());
+        movieDetailsBinding.movieDetailsScrolling.similarMoviesRecycler.setAdapter(similarMoviesAdapter);
+
+        //Getting Similar Movies
+        getSimilarMovies(movieId,apiKey);
 
         return movieDetailsBinding.getRoot();
     }
@@ -151,6 +165,24 @@ public class MovieDetailsFragment extends Fragment {
                     movieCreditAdapter.setMovieCastList(movieCastList);
                 }else {
                     Log.e(TAG,"Movie Cast list is empty");
+                }
+            }
+        });
+    }
+
+    //Get Similar Movies
+    private void getSimilarMovies(int id, String key){
+
+        movieDetailsViewModel.getSimilarMovies(id, key).observe(this, new Observer<SimilarMovies>() {
+            @Override
+            public void onChanged(SimilarMovies similarMovies) {
+
+                if (similarMovies != null){
+                    Log.e(TAG,"Similar Movies list is full");
+                    List<SimilarMovieResults>similarMovieResultsList = similarMovies.getResults();
+                    similarMoviesAdapter.setSimilarMovieResults(similarMovieResultsList);
+                }else {
+                    Log.e(TAG,"Similar Movies list is null");
                 }
             }
         });

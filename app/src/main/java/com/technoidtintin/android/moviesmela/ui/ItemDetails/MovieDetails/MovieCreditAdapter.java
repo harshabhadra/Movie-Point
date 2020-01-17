@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela;
+package com.technoidtintin.android.moviesmela.ui.ItemDetails.MovieDetails;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.technoidtintin.android.moviesmela.Model.MovieCast;
+import com.technoidtintin.android.moviesmela.R;
 
 import java.util.ArrayList;
 import java.util.List;

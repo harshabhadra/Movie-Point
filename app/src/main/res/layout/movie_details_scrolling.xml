@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             tools:text="A long Movie Name"
             android:textColor="@color/colorWhite"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/TextAppearance.AppCompat.Display1"
             android:gravity="center"
-            android:text="@{moviedetailScrolling.title}"
+            android:text="@{moviedetailScrolling.originalTitle}"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"/>
@@ -162,6 +162,18 @@
             android:textColor="@color/colorWhite"
             android:text="@{moviedetailScrolling.overview}"
             android:layout_marginBottom="16dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            app:backgroundTint="@android:color/transparent"
+            app:strokeColor="@color/border"
+            app:cornerRadius="0dp"
+            android:text="@string/read_all_reviews"
+            app:strokeWidth="2dp"
+            android:layout_gravity="center"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,33 +181,16 @@
             style="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
             android:text="Movie Cast"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_cast_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:drawableEnd="@drawable/ic_arrow_drop_down_white_24dp"
-            android:drawablePadding="16dp"
-            android:text="Reiews"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/review_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"/>
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -204,7 +199,7 @@
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:paddingStart="16dp"/>
+            android:layout_margin="16dp"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/similar_movies_recycler"
             android:layout_width="match_parent"

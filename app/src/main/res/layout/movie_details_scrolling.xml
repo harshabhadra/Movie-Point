@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="@{moviedetailScrolling.tagline}"
             tools:text="A Even longer TagLine than Movie name"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorAccent"
             android:gravity="center"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -164,6 +164,7 @@
             android:layout_marginBottom="16dp"/>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/review_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"

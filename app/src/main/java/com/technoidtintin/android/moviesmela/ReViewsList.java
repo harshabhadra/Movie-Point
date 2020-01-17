@@ -14,7 +14,7 @@ public class ReViewsList {
     public Integer page;
     @SerializedName("results")
     @Expose
-    public List<MovieReViews> results = null;
+    public List<MovieReviews> results = null;
     @SerializedName("total_pages")
     @Expose
     public Integer totalPages;
@@ -38,11 +38,11 @@ public class ReViewsList {
         this.page = page;
     }
 
-    public List<MovieReViews> getResults() {
+    public List<MovieReviews> getResults() {
         return results;
     }
 
-    public void setResults(List<MovieReViews> results) {
+    public void setResults(List<MovieReviews> results) {
         this.results = results;
     }
 

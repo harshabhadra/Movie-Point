@@ -104,6 +104,15 @@ public class Repository {
     //Store Similar Movies
     private MutableLiveData<SimilarMovies>similarMoviesMutableLiveData = new MutableLiveData<>();
 
+    //Store Reviews of Movies
+    private MutableLiveData<ReViewsList>reViewsListMutableLiveData = new MutableLiveData<>();
+
+    //Get Movie Reviews
+    public LiveData<ReViewsList>getMovieReviewList(int movieId, String apiKey){
+        getMovieReview(movieId,apiKey);
+        return reViewsListMutableLiveData;
+    }
+
     //Get Similar Movies
     public LiveData<SimilarMovies>getSimilarMovies(int movieId, String apiKey){
         getSimilarMovieList(movieId,apiKey);
@@ -624,6 +633,32 @@ public class Repository {
 
                 Log.e(TAG,"Similar movie response is failure: " + t.getMessage());
                 similarMoviesMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network call to get Movie review list
+    private void getMovieReview(int movieId, String apiKey) {
+
+        operator.getMovieReViews(movieId, apiKey).enqueue(new Callback<ReViewsList>() {
+            @Override
+            public void onResponse(Call<ReViewsList> call, Response<ReViewsList> response) {
+
+                Log.e(TAG,"Movie review response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Movie review response is successful: " + response.body().getTotalPages());
+                    reViewsListMutableLiveData.setValue(response.body());
+                }else{
+                    reViewsListMutableLiveData.setValue(null);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ReViewsList> call, Throwable t) {
+
+                Log.e(TAG,"Movie review response is failure : " + t.getMessage());
+                reViewsListMutableLiveData.setValue(null);
             }
         });
     }

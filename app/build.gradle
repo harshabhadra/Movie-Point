@@ -22,7 +22,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -74,4 +75,7 @@ dependencies {
 
     //Lottie animation
     implementation 'com.airbnb.android:lottie:3.3.1'
+
+    //Expandable recyclerView
+    implementation 'at.blogc:expandabletextview:1.0.5'
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.technoidtintin.android.moviesmela.Model.MovieCredits;
 import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Movies;
+import com.technoidtintin.android.moviesmela.ReViewsList;
 import com.technoidtintin.android.moviesmela.Repository;
 
 public class MovieDetailsViewModel extends ViewModel {

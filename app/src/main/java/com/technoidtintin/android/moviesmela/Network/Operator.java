@@ -5,6 +5,7 @@ import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
+import com.technoidtintin.android.moviesmela.ReViewsList;
 import com.technoidtintin.android.moviesmela.TvCredits;
 import com.technoidtintin.android.moviesmela.TvDetails;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
@@ -51,4 +52,8 @@ public interface Operator {
     @GET("3/movie/{movie_id}/similar")
     Call<SimilarMovies>getSimilarMovies(@Path("movie_id")int movie_id,
                                         @Query("api_key")String apiKey);
+
+    @GET("3/movie/{movie_id}/reviews")
+    Call<ReViewsList>getMovieReViews(@Path("movie_id")int movie_id,
+                                     @Query("api_key")String apiKey);
 }

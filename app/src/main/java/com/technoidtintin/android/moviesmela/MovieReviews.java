@@ -3,7 +3,7 @@ package com.technoidtintin.android.moviesmela;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MovieReViews {
+public class MovieReviews {
 
     @SerializedName("author")
     @Expose

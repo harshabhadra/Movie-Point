@@ -27,6 +27,7 @@ import com.technoidtintin.android.moviesmela.Model.SimilarMovieResults;
 import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.R;
+import com.technoidtintin.android.moviesmela.ui.ItemDetails.MovieDetails.Reviews.ReviewBottomSheet;
 import com.technoidtintin.android.moviesmela.SimilarMoviesAdapter;
 import com.technoidtintin.android.moviesmela.databinding.FragmentMovieDetailsBinding;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
@@ -37,7 +38,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieDetailsFragment extends Fragment {
+public class MovieDetailsFragment extends Fragment{
 
     private static final String TAG = MovieDetailsFragment.class.getSimpleName();
     private FragmentMovieDetailsBinding movieDetailsBinding;
@@ -131,6 +132,16 @@ public class MovieDetailsFragment extends Fragment {
 
         //Getting Similar Movies
         getSimilarMovies(movieId,apiKey);
+
+        //Set on click listener to review button
+        movieDetailsBinding.movieDetailsScrolling.reviewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ReviewBottomSheet reviewBottomSheet = new ReviewBottomSheet(movieId);
+                reviewBottomSheet.show(getFragmentManager(),reviewBottomSheet.getTag());
+            }
+        });
 
         return movieDetailsBinding.getRoot();
     }

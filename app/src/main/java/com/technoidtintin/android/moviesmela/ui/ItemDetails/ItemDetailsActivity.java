@@ -98,10 +98,12 @@ public class ItemDetailsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSeasonClick(List<Season> seasonList) {
+    public void onSeasonClick(List<Season> seasonList, int position, int tv_id) {
 
         ArrayList<Season> seasonArrayList = new ArrayList<>(seasonList);
         Intent intent = new Intent(ItemDetailsActivity.this, SeasonDetailsActivity.class);
+        intent.putExtra(Constant.SEASON_NO,position);
+        intent.putExtra(Constant.TV_ID,tv_id);
         intent.putParcelableArrayListExtra(Constant.SEASON_LIST,seasonArrayList);
         startActivity(intent);
     }

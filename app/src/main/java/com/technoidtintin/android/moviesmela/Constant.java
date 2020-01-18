@@ -16,4 +16,6 @@ public class Constant {
     public static final String MOVIE_TYPE = "movie_type";
     public static final String TV_TYPE = "tv_type";
     public static final String SEASON_LIST = "season_list";
+    public static final String SEASON_NO = "season_no";
+    public static final String TV_ID = "tv_id";
 }

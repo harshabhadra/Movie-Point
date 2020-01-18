@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -94,16 +95,7 @@ public class MovieDetailsFragment extends Fragment{
             }
         });
 
-        //Getting the Movie Item from Activity
-        ItemDetailsActivity itemDetailsActivity = (ItemDetailsActivity)getActivity();
-        listItem = itemDetailsActivity.getListItem();
-
-        //Load the Movie Poster
-        posterPath = listItem.getMoviePosterPath();
         Picasso.get().load(posterPath).into(movieDetailsBinding.movieItemImageView);
-
-        //Initialize movie id and api key
-        movieId = listItem.getId();
         apiKey = getResources().getString(R.string.api_key);
 
         //Create loading Dialog
@@ -144,6 +136,21 @@ public class MovieDetailsFragment extends Fragment{
         });
 
         return movieDetailsBinding.getRoot();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        //Getting the Movie Item from Activity
+        ItemDetailsActivity itemDetailsActivity = (ItemDetailsActivity)getActivity();
+        listItem = itemDetailsActivity.getListItem();
+
+        //Load the Movie Poster
+        posterPath = listItem.getMoviePosterPath();
+
+        //Initialize movie id and api key
+        movieId = listItem.getId();
     }
 
     //Get Movie Details
@@ -214,7 +221,7 @@ public class MovieDetailsFragment extends Fragment{
     //Create Loading Dialog
     private AlertDialog createLoadingDialog(Context context){
         View layout = getLayoutInflater().inflate(R.layout.loading_layout,null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.TransparentDialog);
         builder.setView(layout);
         builder.setCancelable(false);
         return builder.create();

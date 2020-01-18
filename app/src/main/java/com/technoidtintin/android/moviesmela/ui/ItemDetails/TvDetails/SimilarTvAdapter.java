@@ -20,9 +20,15 @@ public class SimilarTvAdapter extends RecyclerView.Adapter<SimilarTvAdapter.Simi
 
     private Context context;
     private List<SimilarTvResults>similarTvResultsList = new ArrayList<>();
+    private OnSimilarTvItemClickListener similarTvItemClickListener;
 
-    public SimilarTvAdapter(Context context) {
+    public SimilarTvAdapter(Context context, OnSimilarTvItemClickListener similarTvItemClickListener) {
         this.context = context;
+        this.similarTvItemClickListener = similarTvItemClickListener;
+    }
+
+    public interface OnSimilarTvItemClickListener{
+        void onSimilarTvItemClick(int position);
     }
 
     @NonNull
@@ -46,12 +52,18 @@ public class SimilarTvAdapter extends RecyclerView.Adapter<SimilarTvAdapter.Simi
         return similarTvResultsList.size();
     }
 
+    //Set Similar Tv list
     public void setSimilarTvResultsList(List<SimilarTvResults> similarTvResultsList) {
         this.similarTvResultsList = similarTvResultsList;
         notifyDataSetChanged();
     }
 
-    class SimilarTvViewHolder extends RecyclerView.ViewHolder{
+    //Get Similar Tv list
+    public SimilarTvResults getSimilarTv(int position){
+        return similarTvResultsList.get(position);
+    }
+
+    class SimilarTvViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView similarImageView;
 
@@ -59,6 +71,14 @@ public class SimilarTvAdapter extends RecyclerView.Adapter<SimilarTvAdapter.Simi
             super(itemView);
 
             similarImageView = itemView.findViewById(R.id.similar_tv_iv);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getAdapterPosition();
+            similarTvItemClickListener.onSimilarTvItemClick(position);
         }
     }
 }

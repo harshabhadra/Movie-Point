@@ -12,7 +12,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SeasonDetailsActivity"></activity>
+        <activity android:name=".ui.TvSeasonDetails.SeasonDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.ItemDetails.ItemDetailsActivity"
             android:parentActivityName=".MainActivity"

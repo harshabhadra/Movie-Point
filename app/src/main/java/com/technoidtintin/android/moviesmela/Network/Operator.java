@@ -6,6 +6,7 @@ import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
 import com.technoidtintin.android.moviesmela.Model.Trending;
 import com.technoidtintin.android.moviesmela.ReViewsList;
+import com.technoidtintin.android.moviesmela.SeasonDetails;
 import com.technoidtintin.android.moviesmela.TvCredits;
 import com.technoidtintin.android.moviesmela.TvDetails;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
@@ -56,4 +57,9 @@ public interface Operator {
     @GET("3/movie/{movie_id}/reviews")
     Call<ReViewsList>getMovieReViews(@Path("movie_id")int movie_id,
                                      @Query("api_key")String apiKey);
+
+    @GET("3/tv/{tv_id}/season/{season_number}")
+    Call<SeasonDetails>getSeasonDetails(@Path("tv_id")int tvid,
+                                        @Path("season_number")int seasonNumber,
+                                        @Query("api_key")String apiKey);
 }

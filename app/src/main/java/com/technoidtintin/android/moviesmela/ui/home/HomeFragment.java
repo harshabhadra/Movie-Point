@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
                     List<TvShowsList>tvShowsLists = tvShows.getResults();
                     List<ListItem>listItemList = getTvShowsList(tvShowsLists);
                     if (listItemList != null){
-                        homeItemList.add(new HomeItem("Top Rated Tv Shows", listItemList));
+                        homeItemList.add(new HomeItem("Popular Tv Shows", listItemList));
 
                         if (homeItemList != null) {
                             getTopratedMoveis();

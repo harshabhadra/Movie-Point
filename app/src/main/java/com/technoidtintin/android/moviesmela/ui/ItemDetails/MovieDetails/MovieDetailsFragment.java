@@ -29,7 +29,6 @@ import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.R;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.MovieDetails.Reviews.ReviewBottomSheet;
-import com.technoidtintin.android.moviesmela.SimilarMoviesAdapter;
 import com.technoidtintin.android.moviesmela.databinding.FragmentMovieDetailsBinding;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
 
@@ -39,7 +38,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieDetailsFragment extends Fragment{
+public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapter.OnSimilarMovieItemClickListner{
 
     private static final String TAG = MovieDetailsFragment.class.getSimpleName();
     private FragmentMovieDetailsBinding movieDetailsBinding;
@@ -55,9 +54,14 @@ public class MovieDetailsFragment extends Fragment{
 
     private MovieCreditAdapter movieCreditAdapter;
     private SimilarMoviesAdapter similarMoviesAdapter;
+    public OnSimilarMovieClickListener similarMovieClickListener;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
+    }
+
+    public interface OnSimilarMovieClickListener{
+        void onSimilarMovieClick(SimilarMovieResults similarMovieResults);
     }
 
 
@@ -95,7 +99,7 @@ public class MovieDetailsFragment extends Fragment{
             }
         });
 
-        Picasso.get().load(posterPath).into(movieDetailsBinding.movieItemImageView);
+        //Initializing Api key
         apiKey = getResources().getString(R.string.api_key);
 
         //Create loading Dialog
@@ -119,7 +123,7 @@ public class MovieDetailsFragment extends Fragment{
         //Initialize Similar Movies Adapter
         movieDetailsBinding.movieDetailsScrolling.similarMoviesRecycler
                 .setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-        similarMoviesAdapter = new SimilarMoviesAdapter(getContext());
+        similarMoviesAdapter = new SimilarMoviesAdapter(getContext(),MovieDetailsFragment.this);
         movieDetailsBinding.movieDetailsScrolling.similarMoviesRecycler.setAdapter(similarMoviesAdapter);
 
         //Getting Similar Movies
@@ -146,11 +150,10 @@ public class MovieDetailsFragment extends Fragment{
         ItemDetailsActivity itemDetailsActivity = (ItemDetailsActivity)getActivity();
         listItem = itemDetailsActivity.getListItem();
 
-        //Load the Movie Poster
-        posterPath = listItem.getMoviePosterPath();
-
         //Initialize movie id and api key
         movieId = listItem.getId();
+
+        similarMovieClickListener = (OnSimilarMovieClickListener)context;
     }
 
     //Get Movie Details
@@ -198,7 +201,7 @@ public class MovieDetailsFragment extends Fragment{
                 if (similarMovies != null){
                     Log.e(TAG,"Similar Movies list is full");
                     List<SimilarMovieResults>similarMovieResultsList = similarMovies.getResults();
-                    similarMoviesAdapter.setSimilarMovieResults(similarMovieResultsList);
+                    similarMoviesAdapter.setSimilarMovieResultsList(similarMovieResultsList);
                 }else {
                     Log.e(TAG,"Similar Movies list is null");
                 }
@@ -211,6 +214,14 @@ public class MovieDetailsFragment extends Fragment{
 
         movieDetailsBinding.setMovieDetails(movies);
         String backdropPath = getResources().getString(R.string.backdrop_url) + movies.getBackdropPath();
+        String posterPath = getResources().getString(R.string.imageUrl_posterpath) + movies.getPosterPath();
+
+        //load the Movie Poster
+        Picasso.get().load(posterPath)
+                .error(R.drawable.tmdb)
+                .into(movieDetailsBinding.movieItemImageView);
+
+        //Load the Backdrop
         Picasso.get().load(backdropPath)
                 .fit()
                 .centerCrop()
@@ -225,5 +236,12 @@ public class MovieDetailsFragment extends Fragment{
         builder.setView(layout);
         builder.setCancelable(false);
         return builder.create();
+    }
+
+    @Override
+    public void onSimilarMovieItemClick(int position) {
+
+        SimilarMovieResults similarMovieResults = similarMoviesAdapter.getSimilarMovie(position);
+        similarMovieClickListener.onSimilarMovieClick(similarMovieResults);
     }
 }

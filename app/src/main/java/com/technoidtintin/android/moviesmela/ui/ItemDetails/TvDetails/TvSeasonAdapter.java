@@ -20,11 +20,16 @@ public class TvSeasonAdapter extends RecyclerView.Adapter<TvSeasonAdapter.TvSeas
 
     private Context context;
     private List<Season>seasonList = new ArrayList<>();
+    private OnSeasonItemClickListener seasonItemClickListener;
 
-    public TvSeasonAdapter(Context context) {
+    public TvSeasonAdapter(Context context, OnSeasonItemClickListener seasonItemClickListener) {
         this.context = context;
+        this.seasonItemClickListener = seasonItemClickListener;
     }
 
+    public interface OnSeasonItemClickListener{
+        void onSeasonItemClick(int position);
+    }
     @NonNull
     @Override
     public TvSeasonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,7 +55,11 @@ public class TvSeasonAdapter extends RecyclerView.Adapter<TvSeasonAdapter.TvSeas
         notifyDataSetChanged();
     }
 
-    class TvSeasonViewHolder extends RecyclerView.ViewHolder{
+    public List<Season> getSeasonList() {
+        return seasonList;
+    }
+
+    class TvSeasonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;
 
@@ -58,6 +67,14 @@ public class TvSeasonAdapter extends RecyclerView.Adapter<TvSeasonAdapter.TvSeas
             super(itemView);
 
             imageView = itemView.findViewById(R.id.season_image_view);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getAdapterPosition();
+            seasonItemClickListener.onSeasonItemClick(position);
         }
     }
 }

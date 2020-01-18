@@ -66,6 +66,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
+                android:text="@{String.valueOf(tvDetailScrolling.voteAverage) + `/10`}"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/item_rating_tv_label"
                 app:layout_constraintStart_toStartOf="@+id/item_rating_tv_label"

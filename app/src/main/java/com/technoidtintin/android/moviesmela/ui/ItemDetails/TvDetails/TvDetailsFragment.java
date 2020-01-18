@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -37,7 +39,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TvDetailsFragment extends Fragment implements View.OnClickListener {
+public class TvDetailsFragment extends Fragment implements View.OnClickListener,
+        SimilarTvAdapter.OnSimilarTvItemClickListener, TvSeasonAdapter.OnSeasonItemClickListener {
 
     private String TAG = TvDetailsFragment.class.getSimpleName();
     private ActivityItemDetailsBinding itemDetailsBinding;
@@ -56,10 +59,23 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
 
     private TvCastAdapters castAdapters;
 
+    private OnSimilarTvClickListener similarTvClickListener;
+
+    private OnSeasonClickListener seasonClickListener;
+
     public TvDetailsFragment() {
         // Required empty public constructor
     }
 
+    //Interface for Similar Tv Item Click
+    public interface OnSimilarTvClickListener{
+        void onSimilarTvClick(SimilarTvResults similarTvResults);
+    }
+
+    //Interface for Season item click
+    public interface OnSeasonClickListener{
+        void onSeasonClick(List<Season>seasonList);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,8 +121,6 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
         ItemDetailsActivity itemDetailsActivity = (ItemDetailsActivity) getActivity();
         listItem = itemDetailsActivity.getListItem();
 
-        String posterImage = listItem.getMoviePosterPath();
-        Picasso.get().load(posterImage).into(itemDetailsBinding.itemImageView);
         itemId = listItem.getId();
 
         //Create loading Dialog
@@ -128,7 +142,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
         itemDetailsBinding.detailScrolling.detailsRecycler.setHasFixedSize(true);
         itemDetailsBinding.detailScrolling.detailsRecycler.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
-        seasonAdapter = new TvSeasonAdapter(getContext());
+        seasonAdapter = new TvSeasonAdapter(getContext(), TvDetailsFragment.this);
         itemDetailsBinding.detailScrolling.detailsRecycler.setAdapter(seasonAdapter);
 
         //Get Similar Tv Shows
@@ -136,7 +150,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
         itemDetailsBinding.detailScrolling.similarTvRecyclerView.setHasFixedSize(true);
         itemDetailsBinding.detailScrolling.similarTvRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
-        similarTvAdapter = new SimilarTvAdapter(getContext());
+        similarTvAdapter = new SimilarTvAdapter(getContext(), TvDetailsFragment.this);
         itemDetailsBinding.detailScrolling.similarTvRecyclerView.setAdapter(similarTvAdapter);
         getSimilarTvShows(itemId, apiKey);
 
@@ -218,12 +232,19 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
         seasonAdapter.setSeasonList(seasonList);
 
         backDrop = getResources().getString(R.string.backdrop_url) + tvDetails.getBackdropPath();
-        String rating = String.valueOf(tvDetails.getVoteAverage());
+        String posterPaht = getResources().getString(R.string.imageUrl_posterpath) + tvDetails.getPosterPath();
         itemDetailsBinding.setTvDetails(tvDetails);
         itemDetailsBinding.detailCollapsingToolBar.setTitle(tvDetails.getName());
-        itemDetailsBinding.detailScrolling.itemReleasedateTvLabel.setText("Last Air Date");
-        itemDetailsBinding.detailScrolling.ratingTv.setText(rating + "/10");
-        Picasso.get().load(backDrop).fit().centerCrop().into(itemDetailsBinding.itemBannerIv);
+        Picasso.get()
+                .load(backDrop)
+                .fit()
+                .centerCrop()
+                .into(itemDetailsBinding.itemBannerIv);
+
+        Picasso.get()
+                .load(posterPaht)
+                .error(R.drawable.tmdb)
+                .into(itemDetailsBinding.itemImageView);
     }
 
     //Create Loading Dialog
@@ -252,5 +273,27 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener 
                 castListVisisble = false;
             }
         }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        similarTvClickListener = (OnSimilarTvClickListener)context;
+        seasonClickListener = (OnSeasonClickListener)context;
+    }
+
+    @Override
+    public void onSimilarTvItemClick(int position) {
+
+        SimilarTvResults similarTvResults = similarTvAdapter.getSimilarTv(position);
+        similarTvClickListener.onSimilarTvClick(similarTvResults);
+    }
+
+    @Override
+    public void onSeasonItemClick(int position) {
+
+        List<Season>seasonList = seasonAdapter.getSeasonList();
+        seasonClickListener.onSeasonClick(seasonList);
     }
 }

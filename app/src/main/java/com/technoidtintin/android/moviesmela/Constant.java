@@ -15,4 +15,5 @@ public class Constant {
     public static final String TOP_RATED = "top_rated";
     public static final String MOVIE_TYPE = "movie_type";
     public static final String TV_TYPE = "tv_type";
+    public static final String SEASON_LIST = "season_list";
 }

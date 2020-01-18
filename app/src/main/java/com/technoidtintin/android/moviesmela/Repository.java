@@ -107,6 +107,16 @@ public class Repository {
     //Store Reviews of Movies
     private MutableLiveData<ReViewsList>reViewsListMutableLiveData = new MutableLiveData<>();
 
+    //Store Season Details
+    private MutableLiveData<SeasonDetails>seasonDetailsMutableLiveData = new MutableLiveData<>();
+
+    //Get SeasonDetails
+    public LiveData<SeasonDetails>getSeasonDetailsLiveData(int tv_id, int season_number, String apiKey){
+
+        getSeasonDetails(tv_id,season_number,apiKey);
+        return seasonDetailsMutableLiveData;
+    }
+
     //Get Movie Reviews
     public LiveData<ReViewsList>getMovieReviewList(int movieId, String apiKey){
         getMovieReview(movieId,apiKey);
@@ -659,6 +669,30 @@ public class Repository {
 
                 Log.e(TAG,"Movie review response is failure : " + t.getMessage());
                 reViewsListMutableLiveData.setValue(null);
+            }
+        });
+    }
+
+    //Network Call To get Season Details
+    private void getSeasonDetails(int tv_id, int season_number, String apiKey) {
+
+        operator.getSeasonDetails(tv_id,season_number,apiKey).enqueue(new Callback<SeasonDetails>() {
+            @Override
+            public void onResponse(Call<SeasonDetails> call, Response<SeasonDetails> response) {
+                Log.e(TAG,"Season details response is : " + response.body());
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e(TAG,"Season Details response is successful: " + response.body().getEpisodes().get(0).name);
+                    seasonDetailsMutableLiveData.setValue(response.body());
+                }else {
+                    seasonDetailsMutableLiveData.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SeasonDetails> call, Throwable t) {
+
+                Log.e(TAG,"Season Details response is failure: " + t.getMessage());
+                seasonDetailsMutableLiveData.setValue(null);
             }
         });
     }

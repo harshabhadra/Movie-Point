@@ -59,6 +59,10 @@ public class TvSeasonAdapter extends RecyclerView.Adapter<TvSeasonAdapter.TvSeas
         return seasonList;
     }
 
+    public Season getSeason(int position){
+        return seasonList.get(position);
+    }
+
     class TvSeasonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;

@@ -13,7 +13,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.TvSeasonDetails.SeasonDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+          />
         <activity
             android:name=".ui.ItemDetails.ItemDetailsActivity"
             android:parentActivityName=".MainActivity"

@@ -681,7 +681,6 @@ public class Repository {
             public void onResponse(Call<SeasonDetails> call, Response<SeasonDetails> response) {
                 Log.e(TAG,"Season details response is : " + response.body());
                 if (response.isSuccessful() && response.body() != null){
-                    Log.e(TAG,"Season Details response is successful: " + response.body().getEpisodes().get(0).name);
                     seasonDetailsMutableLiveData.setValue(response.body());
                 }else {
                     seasonDetailsMutableLiveData.setValue(null);

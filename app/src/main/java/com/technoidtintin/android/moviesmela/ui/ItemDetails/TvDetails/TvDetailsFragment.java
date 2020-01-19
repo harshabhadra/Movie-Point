@@ -74,7 +74,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
 
     //Interface for Season item click
     public interface OnSeasonClickListener{
-        void onSeasonClick(List<Season>seasonList, int position,int tv_id);
+        void onSeasonClick(List<Season>seasonList, int seasonNo,int tv_id);
     }
 
     @Override
@@ -294,6 +294,8 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
     public void onSeasonItemClick(int position) {
 
         List<Season>seasonList = seasonAdapter.getSeasonList();
-        seasonClickListener.onSeasonClick(seasonList,position,itemId);
+        Season season = seasonAdapter.getSeason(position);
+        int seasonNo = season.getSeasonNumber();
+        seasonClickListener.onSeasonClick(seasonList,seasonNo,itemId);
     }
 }

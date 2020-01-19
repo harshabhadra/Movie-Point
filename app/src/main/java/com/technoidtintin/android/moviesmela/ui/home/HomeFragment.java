@@ -78,9 +78,6 @@ public class HomeFragment extends Fragment {
         sliderAdapter = new SliderAdapter(getContext());
         sliderView.setSliderAdapter(sliderAdapter);
         getTrendingToday();
-        sliderView.setIndicatorAnimation(IndicatorAnimations.SWAP); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
-        sliderView.setSliderTransformAnimation(SliderAnimations.FADETRANSFORMATION);
-        sliderView.setScrollTimeInSec(15);
         return root;
     }
 

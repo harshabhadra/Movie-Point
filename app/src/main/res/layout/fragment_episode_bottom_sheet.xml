@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="episode"
+            type="com.technoidtintin.android.moviesmela.Episode" />
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".EpisodeBottomSheet">
+
+    <ImageView
+        android:id="@+id/episode_bottom_close_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_24dp"
+        android:padding="8dp"/>
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/bottom_episode_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/hello_blank_fragment"
+        android:gravity="center"
+        android:text="@{episode.name}"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/colorWhite"/>
+
+    <TextView
+        android:id="@+id/bottom_episode_overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/large_text"
+        android:text="@{episode.overview}"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:layout_margin="16dp" />
+</LinearLayout>
+</layout>

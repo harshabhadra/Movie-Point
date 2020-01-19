@@ -1,4 +1,4 @@
-package com.technoidtintin.android.moviesmela;
+package com.technoidtintin.android.moviesmela.ui.TvSeasonDetails;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.technoidtintin.android.moviesmela.EpisodeFragment.OnListFragmentInteractionListener;
+import com.technoidtintin.android.moviesmela.Episode;
+import com.technoidtintin.android.moviesmela.ui.TvSeasonDetails.EpisodeFragment.OnListFragmentInteractionListener;
+import com.technoidtintin.android.moviesmela.R;
 import com.technoidtintin.android.moviesmela.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
@@ -49,7 +51,12 @@ public class MyEpisodeRecyclerViewAdapter extends RecyclerView.Adapter<MyEpisode
         String imageUrl = context.getResources().getString(R.string.imageUrl_still_path_original) + episode.getStillPath();
         Log.e(TAG,"Image : " + imageUrl);
 
-        Picasso.get().load(imageUrl).placeholder(R.drawable.tmdb)
+        String titletext = "S" + episode.seasonNumber + " E" + episode.episodeNumber + ": " + episode.name;
+        holder.episodeTitle.setText(titletext);
+        Picasso.get().load(imageUrl)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.tmdb)
                 .into(holder.episodeImage);
 
         holder.episodeImage.setOnClickListener(new View.OnClickListener() {
@@ -81,10 +88,12 @@ public class MyEpisodeRecyclerViewAdapter extends RecyclerView.Adapter<MyEpisode
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView episodeImage;
+        private TextView episodeTitle;
 
         public ViewHolder(View view) {
             super(view);
 
+            episodeTitle = view.findViewById(R.id.episode_title);
             episodeImage = view.findViewById(R.id.episode_iv);
         }
 

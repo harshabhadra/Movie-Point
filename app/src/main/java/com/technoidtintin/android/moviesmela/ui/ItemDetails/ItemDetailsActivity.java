@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.technoidtintin.android.moviesmela.Constant;
@@ -98,12 +99,13 @@ public class ItemDetailsActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onSeasonClick(List<Season> seasonList, int position, int tv_id) {
+    public void onSeasonClick(List<Season> seasonList, int seasonNo, int tv_id) {
 
         ArrayList<Season> seasonArrayList = new ArrayList<>(seasonList);
         Intent intent = new Intent(ItemDetailsActivity.this, SeasonDetailsActivity.class);
-        intent.putExtra(Constant.SEASON_NO,position);
+        intent.putExtra(Constant.SEASON_NO,seasonNo);
         intent.putExtra(Constant.TV_ID,tv_id);
+        intent.putExtra(Constant.TV_TITLE, listItem.getMovieTitle());
         intent.putParcelableArrayListExtra(Constant.SEASON_LIST,seasonArrayList);
         startActivity(intent);
     }

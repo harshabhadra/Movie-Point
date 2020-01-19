@@ -18,4 +18,5 @@ public class Constant {
     public static final String SEASON_LIST = "season_list";
     public static final String SEASON_NO = "season_no";
     public static final String TV_ID = "tv_id";
+    public static final String TV_TITLE = "tv_title";
 }

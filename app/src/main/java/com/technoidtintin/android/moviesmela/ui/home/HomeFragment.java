@@ -113,9 +113,6 @@ public class HomeFragment extends Fragment {
                         if (homeItemList != null) {
                             getPopularMovieList();
                         }
-                    } else {
-                        Log.e(TAG, "Trends movie list is empty");
-                        getPopularMovieList();
                     }
                 } else {
                     Log.e(TAG, "Trends are empty");

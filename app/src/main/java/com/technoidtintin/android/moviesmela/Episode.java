@@ -34,7 +34,7 @@ public class Episode {
     public Object stillPath;
     @SerializedName("vote_average")
     @Expose
-    public Integer voteAverage;
+    public Double voteAverage;
     @SerializedName("vote_count")
     @Expose
     public Integer voteCount;
@@ -111,11 +111,11 @@ public class Episode {
         this.stillPath = stillPath;
     }
 
-    public Integer getVoteAverage() {
+    public Double getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(Integer voteAverage) {
+    public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
 

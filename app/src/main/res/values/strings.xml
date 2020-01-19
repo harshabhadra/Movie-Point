@@ -8,6 +8,7 @@
     <string name="imageUrl_posterpath">http://image.tmdb.org/t/p/w342
     </string>
     <string name="imageUrl_posterpath_small">http://image.tmdb.org/t/p/w300</string>
+    <string name="imageUrl_still_path_original">http://image.tmdb.org/t/p/w300</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

@@ -1,15 +1,18 @@
 package com.technoidtintin.android.moviesmela.ui.TvSeasonDetails;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -32,6 +35,7 @@ public class SeasonViewPagerAdapter extends RecyclerView.Adapter<SeasonViewPager
     private int seasonNo;
     private String apiKey;
     private EpisodeAdapter episodeAdapter;
+    private static final String TAG = SeasonViewPagerAdapter.class.getSimpleName();
 
     public SeasonViewPagerAdapter(Context context, ArrayList<Season> seasonList, ViewPager2 viewPager2, int tv_id) {
         this.context = context;
@@ -55,7 +59,7 @@ public class SeasonViewPagerAdapter extends RecyclerView.Adapter<SeasonViewPager
         viewPager2.setCurrentItem(seasonNo);
         holder.seasonName.setText(seasonList.get(position).getName());
         holder.episodeRecyler.setHasFixedSize(true);
-        holder.episodeRecyler.setLayoutManager(new GridLayoutManager(context, 3));
+        holder.episodeRecyler.setLayoutManager(new LinearLayoutManager(context));
         episodeAdapter = new EpisodeAdapter(context);
         holder.episodeRecyler.setAdapter(episodeAdapter);
         getEpisodes(seasonNo);
@@ -87,7 +91,11 @@ public class SeasonViewPagerAdapter extends RecyclerView.Adapter<SeasonViewPager
 
                 if (seasonDetails != null) {
                     List<Episode> episodeList = seasonDetails.getEpisodes();
+                    Log.e(TAG,"Episodes list is full");
                     episodeAdapter.setEpisodeList(episodeList);
+                }else {
+                    Log.e(TAG,"Episodes not available");
+                    Toast.makeText(context,"Episodes not Available",Toast.LENGTH_SHORT).show();
                 }
             }
         });

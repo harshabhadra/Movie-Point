@@ -287,7 +287,7 @@ public class Repository {
 
                             int id = movieObj.getInt("id");
                             String posterImage = movieObj.getString("poster_path");
-                            String image_url = "http://image.tmdb.org/t/p/w300" + posterImage;
+                            String image_url = "http://image.tmdb.org/t/p/w342" + posterImage;
                             String title = movieObj.getString("title");
 
                             ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
@@ -298,6 +298,8 @@ public class Repository {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else {
+                    popularMovieListMutableLiveData.setValue(null);
                 }
             }
 
@@ -330,7 +332,7 @@ public class Repository {
 
                             int id = movieObj.getInt("id");
                             String posterImage = movieObj.getString("poster_path");
-                            String image_url = "http://image.tmdb.org/t/p/w300" + posterImage;
+                            String image_url = "http://image.tmdb.org/t/p/w342" + posterImage;
                             String title = movieObj.getString("title");
 
                             ListItem listItem = new ListItem(id,Constant.MOVIE_TYPE,title,image_url);
@@ -341,6 +343,8 @@ public class Repository {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else {
+                    nowPlayingMovieMutableLiveData.setValue(null);
                 }
             }
 
@@ -373,7 +377,7 @@ public class Repository {
                             int id = object.optInt("id");
                             String name = object.optString("original_name");
                             String image = object.optString("poster_path");
-                            String imageUrl = "http://image.tmdb.org/t/p/w300" + image;
+                            String imageUrl = "http://image.tmdb.org/t/p/w342" + image;
                             ListItem listItem = new ListItem(id,Constant.TV_TYPE,name,imageUrl);
                             popularTvshowsList.add(listItem);
                         }
@@ -384,6 +388,12 @@ public class Repository {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    }
+                }else {
+                    if (path.equals("popular")) {
+                        popularTvItemsMutableLiveData.setValue(null);
+                    }else {
+                        topRatedTvMutableLiveData.setValue(null);
                     }
                 }
             }
@@ -422,6 +432,18 @@ public class Repository {
                         trendTvDayMutableLiveData.setValue(response.body());
                     }else {
                         trendTvWeekMutableLiveData.setValue(response.body());
+                    }
+                }else {
+                    if (type.equals(Constant.ALL )&& time.equals(Constant.DAY)) {
+                        trendTodayMutableLiveData.setValue(null);
+                    }else if (type.equals(Constant.ALL )&& time.equals(Constant.WEEK)){
+                        trendWeekMutableLiveData.setValue(null);
+                    }else if (type.equals(Constant.MOVIE)&& time.equals(Constant.DAY)){
+                        trendMovieDayMutableLiveData.setValue(null);
+                    }else if (type.equals(Constant.TV)&& time.equals(Constant.DAY)){
+                        trendTvDayMutableLiveData.setValue(null);
+                    }else {
+                        trendTvWeekMutableLiveData.setValue(null);
                     }
                 }
             }
@@ -462,6 +484,16 @@ public class Repository {
                         tvShowsPopularMutableLiveData.setValue(response.body());
                     }else if (path.equals(Constant.TOP_RATED)){
                         tvShowsTopRatedMutableLiveData.setValue(response.body());
+                    }
+                }else {
+                    if (path.equals(Constant.ON_THE_AIR)){
+                        tvShowsOnAirMutableLiveData.setValue(null);
+                    }else if (path.equals(Constant.AIR_TODYA)){
+                        tvShowsTodayMutableLiveData.setValue(null);
+                    }else if (path.equals(Constant.POPULAR)){
+                        tvShowsPopularMutableLiveData.setValue(null);
+                    }else if (path.equals(Constant.TOP_RATED)){
+                        tvShowsTopRatedMutableLiveData.setValue(null);
                     }
                 }
             }
@@ -540,6 +572,8 @@ public class Repository {
                 if (response.body() != null && response.isSuccessful()){
                     Log.e(TAG, "Tv Videos response is successful");
                     tvVideosMutableLiveData.setValue(response.body());
+                }else {
+                    tvVideosMutableLiveData.setValue(null);
                 }
             }
 
@@ -564,6 +598,8 @@ public class Repository {
                     Log.e(TAG,"Similar Tv Shows response is successful: "
                             + response.body().getPage() + ", " + response.body().getTotalResults());
                     similarTvMutableLiveData.setValue(response.body());
+                }else {
+                    similarTvMutableLiveData.setValue(null);
                 }
             }
 
@@ -586,6 +622,8 @@ public class Repository {
                 if (response.isSuccessful()&& response.body() != null){
                     Log.e(TAG,"Tv Credit response is successful");
                     tvCreditsMutableLiveData.setValue(response.body());
+                }else {
+                    tvCreditsMutableLiveData.setValue(null);
                 }
             }
 

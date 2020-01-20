@@ -188,8 +188,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(TvShows tvShows) {
 
-                loadingDialog.dismiss();
+
                 if (tvShows !=null){
+                    loadingDialog.dismiss();
                     List<TvShowsList>tvShowsLists = tvShows.getResults();
                     List<ListItem>listItemList = getTvShowsList(tvShowsLists);
                     if (listItemList != null){
@@ -197,6 +198,7 @@ public class HomeFragment extends Fragment {
                         addItemToHomeList(homeItemList);
                     }
                 }else {
+                    loadingDialog.dismiss();
                     if (homeItemList != null){
                         addItemToHomeList(homeItemList);
 

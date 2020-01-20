@@ -9,10 +9,19 @@
     app:cardElevation="6dp"
     app:cardBackgroundColor="@color/colorWhite">
 
-    <ImageView
-        android:id="@+id/movie_cast_iv"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        tools:src="@mipmap/ic_launcher"/>
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info_outline_white_24dp"
+            android:padding="8dp"/>
+        <ImageView
+            android:id="@+id/movie_cast_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:src="@mipmap/ic_launcher"/>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -60,7 +60,6 @@ public class TvShowsFragment extends Fragment {
         //Initializing SliderView
         sliderAdapter = new TvSliderAdapter(getContext());
         tvshowsBinding.tvSliderView.setSliderAdapter(sliderAdapter);
-        tvshowsBinding.tvSliderView.setScrollTimeInSec(6);
         getTvShowsTrendingToday();
 
         //Setting up Tv recyclerView

@@ -7,11 +7,20 @@
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true"
     xmlns:tools="http://schemas.android.com/tools">
-    <ImageView
-        android:background="@color/colorWhite"
-        android:id="@+id/cast_image_view"
-        tools:src="@drawable/tmdb"
-        android:padding="8dp"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info_outline_white_24dp"
+            android:padding="8dp"/>
+        <ImageView
+            android:background="@color/colorWhite"
+            android:id="@+id/cast_image_view"
+            tools:src="@drawable/tmdb"
+            android:padding="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

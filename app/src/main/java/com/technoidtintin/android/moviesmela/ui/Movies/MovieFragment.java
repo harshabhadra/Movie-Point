@@ -56,7 +56,6 @@ public class MovieFragment extends Fragment {
         //Initializing Slider Adapter
         sliderAdapter = new MovieSliderAdapter(getContext());
         fragmentMovieBinding.movieSliderView.setSliderAdapter(sliderAdapter);
-        fragmentMovieBinding.movieSliderView.setScrollTimeInSec(6);
         getTrendingMoviesToday();
 
         fragmentMovieBinding.movieRecycler.setHasFixedSize(true);

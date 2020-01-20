@@ -3,7 +3,9 @@ package com.technoidtintin.android.moviesmela.ui.ItemDetails.MovieDetails;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
+import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.MovieCast;
 import com.technoidtintin.android.moviesmela.Model.MovieCredits;
@@ -28,6 +32,8 @@ import com.technoidtintin.android.moviesmela.Model.SimilarMovieResults;
 import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
 import com.technoidtintin.android.moviesmela.Movies;
 import com.technoidtintin.android.moviesmela.R;
+import com.technoidtintin.android.moviesmela.ui.Favorite.FavoriteActivity;
+import com.technoidtintin.android.moviesmela.ui.Favorite.MovieFavViewModel;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.MovieDetails.Reviews.ReviewBottomSheet;
 import com.technoidtintin.android.moviesmela.databinding.FragmentMovieDetailsBinding;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
@@ -49,12 +55,14 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
     private String posterPath;
     private String apiKey;
     private int movieId;
+    private Movies movieDetails;
 
     private AlertDialog loadingDialog;
 
     private MovieCreditAdapter movieCreditAdapter;
     private SimilarMoviesAdapter similarMoviesAdapter;
     public OnSimilarMovieClickListener similarMovieClickListener;
+    private MovieFavViewModel movieFavViewModel;
 
     public MovieDetailsFragment() {
         // Required empty public constructor
@@ -73,6 +81,9 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
 
         //Initializing MovieDetailsViewModel
         movieDetailsViewModel = ViewModelProviders.of(this).get(MovieDetailsViewModel.class);
+
+        //Initialize MovieFavViewModel class
+        movieFavViewModel = ViewModelProviders.of(this).get(MovieFavViewModel.class);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(movieDetailsBinding.movieDetailsToolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -139,6 +150,28 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
             }
         });
 
+        //Set on click listener to fab button
+        movieDetailsBinding.movieDetailsFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                movieFavViewModel.insertMovieToFav(movieDetails);
+                final Snackbar snackbar = Snackbar.make(movieDetailsBinding.movieDetailCoordinatorLayout,
+                        "Movie Added To Favorite", Snackbar.LENGTH_LONG);
+                snackbar.setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE);
+                snackbar.setBackgroundTint(getResources().getColor(R.color.colorPrimary));
+                snackbar.setActionTextColor(Color.WHITE);
+                snackbar.setAction("View", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), FavoriteActivity.class);
+                        intent.putExtra(Constant.FAV_MOVIE,"fav_movie");
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+                snackbar.show();
+            }
+        });
         return movieDetailsBinding.getRoot();
     }
 
@@ -165,6 +198,7 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
 
                 loadingDialog.dismiss();
                 if (movies != null){
+                    movieDetails = movies;
                     Log.e(TAG,"Movie Details is full");
                     setUpMovieDetailsLayout(movies);
                 }else {

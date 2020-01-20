@@ -1,5 +1,16 @@
 package com.technoidtintin.android.moviesmela;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.technoidtintin.android.moviesmela.Model.Genre;
@@ -9,36 +20,46 @@ import com.technoidtintin.android.moviesmela.Model.Season;
 
 import java.util.List;
 
-public class TvDetails {
+@Entity(tableName = "fav_tvshows")
+public class TvDetails implements Parcelable {
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
     @SerializedName("episode_run_time")
     @Expose
+    @Ignore
     private List<Integer> episodeRunTime = null;
     @SerializedName("first_air_date")
     @Expose
+    @Ignore
     private String firstAirDate;
     @SerializedName("genres")
     @Expose
+    @Ignore
     private List<Genre> genres = null;
     @SerializedName("homepage")
     @Expose
+    @Ignore
     private String homepage;
     @SerializedName("id")
     @Expose
+    @PrimaryKey
+    @NonNull
     private Integer id;
     @SerializedName("in_production")
     @Expose
+    @Ignore
     private Boolean inProduction;
     @SerializedName("languages")
     @Expose
+    @Ignore
     private List<String> languages = null;
     @SerializedName("last_air_date")
     @Expose
     private String lastAirDate;
     @SerializedName("last_episode_to_air")
     @Expose
+    @Ignore
     private LastEpisodeToAir lastEpisodeToAir;
     @SerializedName("name")
     @Expose
@@ -54,9 +75,11 @@ public class TvDetails {
     private Integer numberOfSeasons;
     @SerializedName("origin_country")
     @Expose
+    @Ignore
     private List<String> originCountry = null;
     @SerializedName("original_language")
     @Expose
+    @Ignore
     private String originalLanguage;
     @SerializedName("original_name")
     @Expose
@@ -66,18 +89,22 @@ public class TvDetails {
     private String overview;
     @SerializedName("popularity")
     @Expose
+    @Ignore
     private Double popularity;
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
     @SerializedName("seasons")
     @Expose
+    @ColumnInfo(name = "season_list")
     private List<Season> seasons = null;
     @SerializedName("status")
     @Expose
+    @Ignore
     private String status;
     @SerializedName("type")
     @Expose
+    @Ignore
     private String type;
     @SerializedName("vote_average")
     @Expose
@@ -85,6 +112,86 @@ public class TvDetails {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+
+    public TvDetails(String backdropPath, @NonNull Integer id, String lastAirDate,
+                     String name, NextEpisodeToAir nextEpisodeToAir, Integer numberOfEpisodes,
+                     Integer numberOfSeasons, String originalName, String overview, String posterPath,
+                     List<Season>seasons, Double voteAverage, Integer voteCount) {
+        this.backdropPath = backdropPath;
+        this.id = id;
+        this.lastAirDate = lastAirDate;
+        this.name = name;
+        this.nextEpisodeToAir = nextEpisodeToAir;
+        this.numberOfEpisodes = numberOfEpisodes;
+        this.numberOfSeasons = numberOfSeasons;
+        this.originalName = originalName;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.seasons = seasons;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
+    }
+
+    protected TvDetails(Parcel in) {
+        backdropPath = in.readString();
+        firstAirDate = in.readString();
+        homepage = in.readString();
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        byte tmpInProduction = in.readByte();
+        inProduction = tmpInProduction == 0 ? null : tmpInProduction == 1;
+        languages = in.createStringArrayList();
+        lastAirDate = in.readString();
+        name = in.readString();
+        if (in.readByte() == 0) {
+            numberOfEpisodes = null;
+        } else {
+            numberOfEpisodes = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            numberOfSeasons = null;
+        } else {
+            numberOfSeasons = in.readInt();
+        }
+        originCountry = in.createStringArrayList();
+        originalLanguage = in.readString();
+        originalName = in.readString();
+        overview = in.readString();
+        if (in.readByte() == 0) {
+            popularity = null;
+        } else {
+            popularity = in.readDouble();
+        }
+        posterPath = in.readString();
+        seasons = in.createTypedArrayList(Season.CREATOR);
+        status = in.readString();
+        type = in.readString();
+        if (in.readByte() == 0) {
+            voteAverage = null;
+        } else {
+            voteAverage = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            voteCount = null;
+        } else {
+            voteCount = in.readInt();
+        }
+    }
+
+    public static final Creator<TvDetails> CREATOR = new Creator<TvDetails>() {
+        @Override
+        public TvDetails createFromParcel(Parcel in) {
+            return new TvDetails(in);
+        }
+
+        @Override
+        public TvDetails[] newArray(int size) {
+            return new TvDetails[size];
+        }
+    };
 
     public String getBackdropPath() {
         return backdropPath;
@@ -284,5 +391,65 @@ public class TvDetails {
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(backdropPath);
+        parcel.writeString(firstAirDate);
+        parcel.writeString(homepage);
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeByte((byte) (inProduction == null ? 0 : inProduction ? 1 : 2));
+        parcel.writeStringList(languages);
+        parcel.writeString(lastAirDate);
+        parcel.writeString(name);
+        if (numberOfEpisodes == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(numberOfEpisodes);
+        }
+        if (numberOfSeasons == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(numberOfSeasons);
+        }
+        parcel.writeStringList(originCountry);
+        parcel.writeString(originalLanguage);
+        parcel.writeString(originalName);
+        parcel.writeString(overview);
+        if (popularity == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(popularity);
+        }
+        parcel.writeString(posterPath);
+        parcel.writeTypedList(seasons);
+        parcel.writeString(status);
+        parcel.writeString(type);
+        if (voteAverage == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeDouble(voteAverage);
+        }
+        if (voteCount == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(voteCount);
+        }
     }
 }

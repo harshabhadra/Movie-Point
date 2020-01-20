@@ -41,7 +41,7 @@ public class TvSeasonAdapter extends RecyclerView.Adapter<TvSeasonAdapter.TvSeas
 
         Season season = seasonList.get(position);
         String imageUrl = "http://image.tmdb.org/t/p/w300" + season.getPosterPath();
-        Picasso.get().load(imageUrl).placeholder(R.drawable.tmdb).error(R.mipmap.ic_launcher)
+        Picasso.get().load(imageUrl).placeholder(R.drawable.tmdb).error(R.drawable.tmdb)
                 .into(holder.imageView);
     }
 

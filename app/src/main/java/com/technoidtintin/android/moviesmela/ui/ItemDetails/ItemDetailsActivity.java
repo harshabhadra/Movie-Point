@@ -48,7 +48,6 @@ public class ItemDetailsActivity extends AppCompatActivity implements
             }else if (mediaType.equals(Constant.MOVIE_TYPE)){
                 fragmentTransaction.replace(R.id.details_container,new MovieDetailsFragment()).commit();
             }
-
         }
     }
 

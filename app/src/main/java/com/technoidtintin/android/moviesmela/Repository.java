@@ -1,10 +1,15 @@
 package com.technoidtintin.android.moviesmela;
 
+import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.technoidtintin.android.moviesmela.Dao.FavMovieDao;
+import com.technoidtintin.android.moviesmela.Dao.FavTvShowsDao;
+import com.technoidtintin.android.moviesmela.Database.MoviePointDatabase;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.MovieCredits;
 import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
@@ -33,6 +38,19 @@ public class Repository {
         return new Repository();
     }
 
+    public Repository() {
+    }
+
+    private FavTvShowsDao favTvShowsDao;
+    private FavMovieDao favMovieDao;
+
+    public Repository(Application application){
+        MoviePointDatabase moviePointDatabase = MoviePointDatabase.getInstance(application);
+        favMovieDao = moviePointDatabase.favMovieDao();
+        favTvShowsDao = moviePointDatabase.favTvShowsDao();
+    }
+
+
     private static final String TAG = Repository.class.getSimpleName();
 
     //Initializing ApiServices
@@ -40,6 +58,12 @@ public class Repository {
 
     //Initialize Operator class
     private Operator operator = ApiUtils.getOperator();
+
+    //Store Fav Movie List
+    private LiveData<List<Movies>>favMoviesListMutableLiveData = new MutableLiveData<>();
+
+    //Store Fav Tv Shows list
+    private LiveData<List<TvDetails>>favTvShowsMutableLiveData = new MutableLiveData<>();
 
     //Store list of MovieItems
     private MutableLiveData<List<ListItem>> popularMovieListMutableLiveData = new MutableLiveData<>();
@@ -109,6 +133,41 @@ public class Repository {
 
     //Store Season Details
     private MutableLiveData<SeasonDetails>seasonDetailsMutableLiveData = new MutableLiveData<>();
+
+    //Get Fav movies
+    public LiveData<List<Movies>>getFavMoives(){
+        favMoviesListMutableLiveData = favMovieDao.getFavMovieList();
+        return favMoviesListMutableLiveData;
+    }
+
+    //Get Fav Tv Shows List
+    public LiveData<List<TvDetails>>getFavTvShowsList(){
+        favTvShowsMutableLiveData = favTvShowsDao.getFavTvShows();
+        return favTvShowsMutableLiveData;
+    }
+
+    //Insert Movie to Fav list
+    public void insertMoviesToFav(Movies movies){
+
+        new insertFavMoviesAsync(favMovieDao).execute(movies);
+    }
+
+    //Insert Tv Show to fav list
+    public void insertTvShowsToFav(TvDetails tvDetails){
+        new insertTvshowsAsync(favTvShowsDao).execute(tvDetails);
+    }
+
+    //delete movie from Fav list
+    public void deleteMovieFromFav(Movies movies){
+        new deleteMovieAsync(favMovieDao).execute(movies);
+    }
+
+    //Delete tv Show from fav list
+    public void deleteTvShowFromFav(TvDetails tvDetails){
+        new delelteTvShowAsync(favTvShowsDao).execute(tvDetails);
+    }
+
+
 
     //Get SeasonDetails
     public LiveData<SeasonDetails>getSeasonDetailsLiveData(int tv_id, int season_number, String apiKey){
@@ -732,5 +791,73 @@ public class Repository {
                 seasonDetailsMutableLiveData.setValue(null);
             }
         });
+    }
+
+    //AsyncTask to insert movies to Fav list
+    private static class insertFavMoviesAsync extends AsyncTask<Movies,Void,Void>{
+
+        FavMovieDao favMovieDao;
+
+        public insertFavMoviesAsync(FavMovieDao favMovieDao) {
+            this.favMovieDao = favMovieDao;
+        }
+
+        @Override
+        protected Void doInBackground(Movies... movies) {
+
+            favMovieDao.insertFavMovie(movies[0]);
+            return null;
+        }
+    }
+
+    //AsyncTask to insert Tv shows to favorite list
+    private static class insertTvshowsAsync extends AsyncTask<TvDetails, Void, Void>{
+
+        FavTvShowsDao favTvShowsDao;
+
+        public insertTvshowsAsync(FavTvShowsDao favTvShowsDao) {
+            this.favTvShowsDao = favTvShowsDao;
+        }
+
+        @Override
+        protected Void doInBackground(TvDetails... tvDetails) {
+
+            favTvShowsDao.insertFavTvShow(tvDetails[0]);
+            return null;
+        }
+    }
+
+    //AsyncTask to Delete a movie from Fav list
+    private static class deleteMovieAsync extends AsyncTask<Movies, Void , Void>{
+
+        FavMovieDao favMovieDao;
+
+        public deleteMovieAsync(FavMovieDao favMovieDao) {
+            this.favMovieDao = favMovieDao;
+        }
+
+        @Override
+        protected Void doInBackground(Movies... movies) {
+
+            favMovieDao.deleteFavMovie(movies[0]);
+            return null;
+        }
+    }
+
+    //AsyncTask to delete TvShow from fav list
+    private static class delelteTvShowAsync extends AsyncTask<TvDetails, Void, Void>{
+
+        FavTvShowsDao favTvShowsDao;
+
+        public delelteTvShowAsync(FavTvShowsDao favTvShowsDao) {
+            this.favTvShowsDao = favTvShowsDao;
+        }
+
+        @Override
+        protected Void doInBackground(TvDetails... tvDetails) {
+
+            favTvShowsDao.delteFavTvShow(tvDetails[0]);
+            return null;
+        }
     }
 }

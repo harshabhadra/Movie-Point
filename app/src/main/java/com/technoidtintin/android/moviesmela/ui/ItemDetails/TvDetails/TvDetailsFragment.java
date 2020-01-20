@@ -2,6 +2,7 @@ package com.technoidtintin.android.moviesmela.ui.ItemDetails.TvDetails;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
+import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.Season;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
@@ -32,6 +35,8 @@ import com.technoidtintin.android.moviesmela.TvCast;
 import com.technoidtintin.android.moviesmela.TvCredits;
 import com.technoidtintin.android.moviesmela.TvDetails;
 import com.technoidtintin.android.moviesmela.databinding.ActivityItemDetailsBinding;
+import com.technoidtintin.android.moviesmela.ui.Favorite.FavoriteActivity;
+import com.technoidtintin.android.moviesmela.ui.Favorite.TvFavViewModel;
 import com.technoidtintin.android.moviesmela.ui.ItemDetails.ItemDetailsActivity;
 
 import java.util.List;
@@ -45,6 +50,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
     private String TAG = TvDetailsFragment.class.getSimpleName();
     private ActivityItemDetailsBinding itemDetailsBinding;
     private TvDetailsViewModel tvDetailsViewModel;
+    private TvFavViewModel tvFavViewModel;
 
     private int itemId;
     private String apiKey;
@@ -62,6 +68,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
     private OnSimilarTvClickListener similarTvClickListener;
 
     private OnSeasonClickListener seasonClickListener;
+    private TvDetails tvDetail;
 
     public TvDetailsFragment() {
         // Required empty public constructor
@@ -86,6 +93,9 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
 
         //Initializing ViewModel class
         tvDetailsViewModel = ViewModelProviders.of(this).get(TvDetailsViewModel.class);
+
+        //Initializing Tv FAv Viwmodel class
+        tvFavViewModel = ViewModelProviders.of(this).get(TvFavViewModel.class);
 
         //Initializing ApiKey
         apiKey = getResources().getString(R.string.api_key);
@@ -165,6 +175,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
         getTvCastDetails(itemId);
 
         itemDetailsBinding.detailScrolling.castMememberLabel.setOnClickListener(this);
+        itemDetailsBinding.tvDetailsFab.setOnClickListener(this);
 
         return itemDetailsBinding.getRoot();
     }
@@ -177,6 +188,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
                 loadingDialog.dismiss();
                 if (tvDetails != null) {
                     Log.e(TAG, "TV Details is full");
+                    tvDetail = tvDetails;
                     setTvDetailsLayout(tvDetails);
                 } else {
                     Log.e(TAG, "TV Details is null");
@@ -272,6 +284,24 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
 
                 castListVisisble = false;
             }
+        }else if (view.equals(itemDetailsBinding.tvDetailsFab)){
+
+            tvFavViewModel.insertTvShowsToFav(tvDetail);
+            Snackbar snackbar = Snackbar.make(itemDetailsBinding.tvDetailCoordinatorLayout,
+                    "Tv Show Added To Favorite", Snackbar.LENGTH_LONG);
+            snackbar.setAnimationMode(Snackbar.ANIMATION_MODE_SLIDE);
+            snackbar.setBackgroundTint(getResources().getColor(R.color.colorPrimary));
+            snackbar.setActionTextColor(Color.WHITE);
+            snackbar.setAction("View", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), FavoriteActivity.class);
+                    intent.putExtra(Constant.FAV_TV,"fav_tv");
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+            snackbar.show();
         }
     }
 

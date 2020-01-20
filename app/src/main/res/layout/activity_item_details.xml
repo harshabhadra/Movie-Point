@@ -9,6 +9,7 @@
             type="com.technoidtintin.android.moviesmela.TvDetails" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/tv_detail_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#212121">
@@ -79,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabSize="normal"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/colorStroke"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_favorite_black_24dp"/>

@@ -19,4 +19,8 @@ public class Constant {
     public static final String SEASON_NO = "season_no";
     public static final String TV_ID = "tv_id";
     public static final String TV_TITLE = "tv_title";
+    public static final String FAV_MOVIE = "fav_movie";
+    public static final String FAV_TV = "fav_tv";
+    public static final String FAVORITE_MOVIE = "favorite_movie";
+    public static final String FAVORITE_TV_SHOW = "favorite_tv_show";
 }

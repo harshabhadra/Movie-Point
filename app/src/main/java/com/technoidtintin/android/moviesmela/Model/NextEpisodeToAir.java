@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class NextEpisodeToAir {
 
-
     @SerializedName("air_date")
     @Expose
     private String airDate;

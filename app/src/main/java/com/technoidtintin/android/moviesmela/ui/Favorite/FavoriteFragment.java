@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Movies;
@@ -146,8 +148,9 @@ public class FavoriteFragment extends Fragment implements
 
         View view = getLayoutInflater().inflate(R.layout.choose_layout, null);
 
-        TextView deleteTv = view.findViewById(R.id.fav_delete);
-        TextView detailsTv = view.findViewById(R.id.fav_see_details);
+        MaterialButton deleteTv = view.findViewById(R.id.fav_delete);
+        MaterialButton detailsTv = view.findViewById(R.id.fav_see_details);
+        ImageView closeImage = view.findViewById(R.id.close_chooser_iv);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(false);
@@ -155,6 +158,12 @@ public class FavoriteFragment extends Fragment implements
         final AlertDialog dialog = builder.create();
         dialog.show();
 
+        closeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         deleteTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,8 +194,9 @@ public class FavoriteFragment extends Fragment implements
     private void createChooserForTv(final TvDetails tvDetails) {
         View view = getLayoutInflater().inflate(R.layout.choose_layout, null);
 
-        TextView deleteTv = view.findViewById(R.id.fav_delete);
-        TextView detailsTv = view.findViewById(R.id.fav_see_details);
+        MaterialButton deleteTv = view.findViewById(R.id.fav_delete);
+        MaterialButton detailsTv = view.findViewById(R.id.fav_see_details);
+        ImageView closeImage = view.findViewById(R.id.close_chooser_iv);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(false);
@@ -194,6 +204,12 @@ public class FavoriteFragment extends Fragment implements
         final AlertDialog dialog = builder.create();
         dialog.show();
 
+        closeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
 
         deleteTv.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         release {
@@ -15,21 +15,28 @@ android {
         applicationId "com.technoidtintin.android.moviesmela"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.release
     }
     buildTypes {
         release {
-            debuggable true
+            debuggable false
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
     dataBinding {
         enabled = true
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
     }
 }
 
@@ -86,4 +93,13 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'com.google.android.play:core:1.6.4'
+
+    //Firebase Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+
+    //Firebase Cloud messaging
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+
+    //Firebase Remote config
+    implementation 'com.google.firebase:firebase-config:19.1.0'
 }

@@ -23,4 +23,6 @@ public class Constant {
     public static final String FAV_TV = "fav_tv";
     public static final String FAVORITE_MOVIE = "favorite_movie";
     public static final String FAVORITE_TV_SHOW = "favorite_tv_show";
+    public static final String CONFIG_VALUES= "config_values";
+    public static final String SHOW_UPDATE_DIALOG = "show_update_dialog";
 }

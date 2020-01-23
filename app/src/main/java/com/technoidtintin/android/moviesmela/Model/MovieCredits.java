@@ -2,6 +2,7 @@ package com.technoidtintin.android.moviesmela.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.technoidtintin.android.moviesmela.MovieCast;
 
 import java.util.List;
 

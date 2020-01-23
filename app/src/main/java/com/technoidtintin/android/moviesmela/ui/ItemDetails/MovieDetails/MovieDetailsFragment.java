@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Movie;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,8 +24,9 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.technoidtintin.android.moviesmela.Constant;
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
-import com.technoidtintin.android.moviesmela.Model.MovieCast;
+import com.technoidtintin.android.moviesmela.MovieCast;
 import com.technoidtintin.android.moviesmela.Model.MovieCredits;
 import com.technoidtintin.android.moviesmela.Model.SimilarMovieResults;
 import com.technoidtintin.android.moviesmela.Model.SimilarMovies;
@@ -44,7 +44,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapter.OnSimilarMovieItemClickListner{
+public class MovieDetailsFragment extends Fragment implements
+        SimilarMoviesAdapter.OnSimilarMovieItemClickListner, MovieCreditAdapter.OnMovieCastItemClickListener{
 
     private static final String TAG = MovieDetailsFragment.class.getSimpleName();
     private FragmentMovieDetailsBinding movieDetailsBinding;
@@ -111,7 +112,7 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
         });
 
         //Initializing Api key
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
 
         //Create loading Dialog
         loadingDialog = createLoadingDialog(getContext());
@@ -125,7 +126,7 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
                 .setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
         //Initializing the MovieCredit adapter
-        movieCreditAdapter = new MovieCreditAdapter(getContext());
+        movieCreditAdapter = new MovieCreditAdapter(getContext(),MovieDetailsFragment.this);
         movieDetailsBinding.movieDetailsScrolling.movieCastRecycler.setAdapter(movieCreditAdapter);
 
         //Getting Movie credits
@@ -277,5 +278,12 @@ public class MovieDetailsFragment extends Fragment implements SimilarMoviesAdapt
 
         SimilarMovieResults similarMovieResults = similarMoviesAdapter.getSimilarMovie(position);
         similarMovieClickListener.onSimilarMovieClick(similarMovieResults);
+    }
+
+    @Override
+    public void onMoiveCastItemClick(int position) {
+
+        MovieCast movieCast = movieCreditAdapter.getMovieCast(position);
+
     }
 }

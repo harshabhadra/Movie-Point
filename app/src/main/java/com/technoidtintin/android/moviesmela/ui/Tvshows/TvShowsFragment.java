@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.TvShows;
@@ -51,7 +52,7 @@ public class TvShowsFragment extends Fragment {
         tvshowsBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_tvshows,container,false);
 
         //Initializing Api key
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
 
         //Create Loading Dialog
         loadingDialog = createAlertDialgo(getContext());

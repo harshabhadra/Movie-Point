@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>apply_force_update</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>show_update_dialog</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>version_name</key>
+        <value>1.0</value>
+    </entry>
+    <entry>
+        <key>update_message</key>
+        <value>This version is out of date</value>
+    </entry>
+</defaultsMap>

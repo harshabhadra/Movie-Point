@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.technoidtintin.android.moviesmela.Constant;
 import com.technoidtintin.android.moviesmela.Episode;
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.Model.Season;
 import com.technoidtintin.android.moviesmela.R;
 import com.technoidtintin.android.moviesmela.SeasonDetails;
@@ -82,7 +83,7 @@ public class EpisodeFragment extends Fragment {
         seasonDetailsViewModel = ViewModelProviders.of(this).get(SeasonDetailsViewModel.class);
 
         //Initialize api key
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
 
         // Set the adapter
         if (view instanceof RecyclerView) {

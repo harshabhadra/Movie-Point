@@ -20,6 +20,7 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.technoidtintin.android.moviesmela.Constant;
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
@@ -55,7 +56,7 @@ public class HomeFragment extends Fragment {
 
         Log.e(HOME_TAG,HOME_TAG);
         //Initializing api key
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
 
         //Initializing HomeViewModel class
         homeViewModel =

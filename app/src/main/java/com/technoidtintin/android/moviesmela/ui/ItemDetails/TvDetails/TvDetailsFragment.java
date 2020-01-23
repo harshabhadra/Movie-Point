@@ -26,6 +26,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.technoidtintin.android.moviesmela.Constant;
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.Season;
 import com.technoidtintin.android.moviesmela.Model.SimilarTv;
@@ -98,7 +99,7 @@ public class TvDetailsFragment extends Fragment implements View.OnClickListener,
         tvFavViewModel = ViewModelProviders.of(this).get(TvFavViewModel.class);
 
         //Initializing ApiKey
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
 
         //Setting up toolbar
         ((AppCompatActivity) getActivity()).setSupportActionBar(itemDetailsBinding.detailsToolbar);

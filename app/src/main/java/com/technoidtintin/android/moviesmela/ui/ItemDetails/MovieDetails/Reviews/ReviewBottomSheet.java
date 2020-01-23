@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.MovieReviews;
 import com.technoidtintin.android.moviesmela.R;
 import com.technoidtintin.android.moviesmela.ReViewsList;
@@ -67,7 +69,7 @@ public class ReviewBottomSheet extends BottomSheetDialogFragment {
         reViewBottomViewModel = ViewModelProviders.of(this).get(ReViewBottomViewModel.class);
 
         //Initialize api key
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
 
         //Initializing review loading
         reviewLoading = view.findViewById(R.id.review_loading);
@@ -91,6 +93,14 @@ public class ReviewBottomSheet extends BottomSheetDialogFragment {
                 getMovieReview(movie_id,apiKey);
             }
         },3000);
+
+        ImageView imageView = view.findViewById(R.id.close_review_iv);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
         reviewSheetDialog.setContentView(view);
         bottomSheetBehavior = BottomSheetBehavior.from((View)view.getParent());

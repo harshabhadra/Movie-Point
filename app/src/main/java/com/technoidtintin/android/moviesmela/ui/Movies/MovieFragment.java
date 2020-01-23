@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.technoidtintin.android.moviesmela.Constant;
+import com.technoidtintin.android.moviesmela.Keys;
 import com.technoidtintin.android.moviesmela.Model.HomeItem;
 import com.technoidtintin.android.moviesmela.Model.ListItem;
 import com.technoidtintin.android.moviesmela.Model.TrendResult;
@@ -43,7 +44,7 @@ public class MovieFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        apiKey = getResources().getString(R.string.api_key);
+        apiKey = new Keys().getKey();
         moviesViewModel = ViewModelProviders.of(this).get(MoviesViewModel.class);
 
         //Initializing DataBinding
